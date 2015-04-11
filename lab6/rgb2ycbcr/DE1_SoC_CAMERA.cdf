@@ -6,7 +6,7 @@ JedecChain;
 	P ActionCode(Ign)
 		Device PartName(SOCVHPS) MfrSpec(OpMask(0));
 	P ActionCode(Cfg)
-		Device PartName(5CSEMA5F31) Path("/home/omicronns/Workspaces/quartus/DE1_SoC_CAMERA/") File("DE1_SoC_CAMERA.sof") MfrSpec(OpMask(1));
+		Device PartName(5CSEMA5F31) Path("/home/omicronns/Workspaces/verilog/studies-sys-rek/lab6/rgb2ycbcr/") File("DE1_SoC_CAMERA.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

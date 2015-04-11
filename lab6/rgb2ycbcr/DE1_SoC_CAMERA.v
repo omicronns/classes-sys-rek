@@ -219,7 +219,10 @@ module DE1_SoC_CAMERA(
       inout		          D5M_SDATA,
       input		          D5M_STROBE,
       output		       D5M_TRIGGER,
-      output		       D5M_XCLKIN
+      output		       D5M_XCLKIN,
+		
+		//////////// Image mux switches ////////////////
+		input		[3:0]		i_ImageSwitch
 );
 
 
