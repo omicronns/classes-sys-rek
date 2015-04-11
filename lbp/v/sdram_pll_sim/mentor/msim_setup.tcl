@@ -1,5 +1,5 @@
 
-# (C) 2001-2013 Altera Corporation. All rights reserved.
+# (C) 2001-2015 Altera Corporation. All rights reserved.
 # Your use of Altera Corporation's design tools, logic functions and 
 # other software and tools, and its AMPP partner logic functions, and 
 # any output files any of the foregoing (including device programming 
@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 13.1 162 win32 2013.12.04.10:34:57
+# ACDS 14.1 186 linux 2015.04.11.13:16:35
 
 # ----------------------------------------
 # Auto-generated simulation script
@@ -34,7 +34,7 @@ if ![info exists QSYS_SIMDIR] {
 }
 
 if ![info exists QUARTUS_INSTALL_DIR] { 
-  set QUARTUS_INSTALL_DIR "D:/altera13.1/quartus/"
+  set QUARTUS_INSTALL_DIR "/opt/altera/quartus2/quartus/"
 }
 
 # ----------------------------------------

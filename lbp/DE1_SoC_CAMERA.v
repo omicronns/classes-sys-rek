@@ -226,34 +226,37 @@ module DE1_SoC_CAMERA(
 //=======================================================
 //  REG/WIRE declarations
 //=======================================================
-wire			 [15:0]			Read_DATA1;
-wire	       [15:0]			Read_DATA2;
-
-wire			 [11:0]			mCCD_DATA;
+wire			[15:0]			Read_DATA1;
+wire	      [15:0]			Read_DATA2;
+wire			[11:0]			mCCD_DATA;
 wire								mCCD_DVAL;
 wire								mCCD_DVAL_d;
-wire	       [15:0]			X_Cont;
-wire	       [15:0]			Y_Cont;
-wire	       [9:0]			X_ADDR;
-wire	       [31:0]			Frame_Cont;
+wire	      [15:0]			X_Cont;
+wire	      [15:0]			Y_Cont;
+wire	      [9:0]				X_ADDR;
 wire								DLY_RST_0;
 wire								DLY_RST_1;
 wire								DLY_RST_2;
 wire								DLY_RST_3;
 wire								DLY_RST_4;
 wire								Read;
-reg		    [11:0]			rCCD_DATA;
+reg		   [11:0]			rCCD_DATA;
 reg								rCCD_LVAL;
 reg								rCCD_FVAL;
-wire	       [11:0]			sCCD_R;
-wire	       [11:0]			sCCD_G;
-wire	       [11:0]			sCCD_B;
+wire	      [11:0]			sCCD_R;
+wire	      [11:0]			sCCD_G;
+wire	      [11:0]			sCCD_B;
 wire								sCCD_DVAL;
-
 wire								sdram_ctrl_clk;
-//wire	       [9:0]			oVGA_R;   				//	VGA Red[9:0]
-//wire	       [9:0]			oVGA_G;	 				//	VGA Green[9:0]
-//wire	       [9:0]			oVGA_B;   				//	VGA Blue[9:0]
+
+//Image processing connectors
+wire			[23:0]			debug_proc;
+wire 			[9:0] 			r_proc;
+wire 			[9:0] 			g_proc;
+wire 			[9:0] 			b_proc;
+wire 								h_sync_proc;
+wire 								v_sync_proc;
+wire 								vga_blank_proc;
 
 //power on start
 wire             				auto_start;
@@ -261,17 +264,10 @@ wire             				auto_start;
 //  Structural coding
 //=======================================================
 // D5M
-assign	D5M_TRIGGER	=	1'b1;  // tRIGGER
-assign	D5M_RESET_N	=	DLY_RST_1;
-
-assign   VGA_CTRL_CLK = VGA_CLK;
-
-assign	LEDR		=	Y_Cont;
-
-//fetch the high 8 bits
-//assign  VGA_R = oVGA_R[9:2];
-//assign  VGA_G = oVGA_G[9:2];
-//assign  VGA_B = oVGA_B[9:2];
+assign	D5M_TRIGGER		=	1'b1;  // tRIGGER
+assign	D5M_RESET_N		=	DLY_RST_1;
+assign   VGA_CTRL_CLK 	=	VGA_CLK;
+assign	LEDR				=	0;
 
 //D5M read 
 always@(posedge D5M_PIXLCLK)
@@ -281,9 +277,9 @@ begin
 	rCCD_FVAL	<=	D5M_FVAL;
 end
 
-
 //auto start when power on
 assign auto_start = ((KEY[0])&&(DLY_RST_3)&&(!DLY_RST_4))? 1'b1:1'b0;
+
 //Reset module
 Reset_Delay			u2	(	
 							.iCLK(CLOCK_50),
@@ -294,13 +290,13 @@ Reset_Delay			u2	(
 							.oRST_3(DLY_RST_3),
 							.oRST_4(DLY_RST_4)
 						   );
+
 //D5M image capture
 CCD_Capture			u3	(	
 							.oDATA(mCCD_DATA),
 							.oDVAL(mCCD_DVAL),
 							.oX_Cont(X_Cont),
 							.oY_Cont(Y_Cont),
-							.oFrame_Cont(Frame_Cont),
 							.iDATA(rCCD_DATA),
 							.iFVAL(rCCD_FVAL),
 							.iLVAL(rCCD_LVAL),
@@ -309,8 +305,8 @@ CCD_Capture			u3	(
 							.iCLK(~D5M_PIXLCLK),
 							.iRST(DLY_RST_2)
 						   );
-//D5M raw date convert to RGB data
 
+//D5M raw date convert to RGB data
 RAW2RGB				u4	(	
 							.iCLK(D5M_PIXLCLK),
 							.iRST(DLY_RST_1),
@@ -329,7 +325,7 @@ SEG7_LUT_6 			u5	(
 							.oSEG0(HEX0),.oSEG1(HEX1),
 							.oSEG2(HEX2),.oSEG3(HEX3),
 							.oSEG4(HEX4),.oSEG5(HEX5),
-							.iDIG(Frame_Cont[23:0])
+							.iDIG(debug_proc)
 						   );
 												
 sdram_pll 			u6	(
@@ -339,10 +335,7 @@ sdram_pll 			u6	(
 							.outclk_1(DRAM_CLK),
 							.outclk_2(D5M_XCLKIN),    //25M
 					      .outclk_3(VGA_CLK)       //25M
-
 						   );
-
-
 
 //SDRam Read and Write as Frame Buffer
 Sdram_Control	   u7	(	//	HOST Side						
@@ -396,8 +389,7 @@ Sdram_Control	   u7	(	//	HOST Side
 							.DQ(DRAM_DQ),
 							.DQM({DRAM_UDQM,DRAM_LDQM})
 						   );
-							
-				
+
 //D5M I2C control
 I2C_CCD_Config 	u8	(	//	Host Side
 							.iCLK(CLOCK2_50),
@@ -410,34 +402,26 @@ I2C_CCD_Config 	u8	(	//	Host Side
 							.I2C_SDAT(D5M_SDATA)
 						   );
 
-wire [9:0] 	r_proc;
-wire [9:0] 	g_proc;
-wire [9:0] 	b_proc;
-wire 			h_sync_proc;
-wire 			v_sync_proc;
-wire 			vga_blank_proc;
-
 //Image processing
-image_processor  im_proc (
+image_processor  u9 	(
+							.i_r(r_proc[9:2]),
+							.i_g(g_proc[9:2]),
+							.i_b(b_proc[9:2]),
+							.i_h_sync(h_sync_proc),
+							.i_v_sync(v_sync_proc),
+							.i_vga_blank(vga_blank_proc),
+							
+							.o_r(VGA_R),
+							.o_g(VGA_G),
+							.o_b(VGA_B),
+							.o_h_sync(VGA_HS),
+							.o_v_sync(VGA_VS),
+							.o_vga_blank(VGA_BLANK_N),
 
-		.i_r(r_proc[9:2]),
-		.i_g(g_proc[9:2]),
-		.i_b(b_proc[9:2]),
-		.i_h_sync(h_sync_proc),
-		.i_v_sync(v_sync_proc),
-		.i_vga_blank(vga_blank_proc),
-		
-		.o_r(VGA_R),
-		.o_g(VGA_G),
-		.o_b(VGA_B),
-		.o_h_sync(VGA_HS),
-		.o_v_sync(VGA_VS),
-		.o_vga_blank(VGA_BLANK_N),
-		
-		.i_clk(VGA_CTRL_CLK)
-	);							
-							
-							
+							.o_debug(debug_proc),
+							.i_clk(VGA_CTRL_CLK)
+							);							
+			
 //VGA DISPLAY
 VGA_Controller	  u1	(	//	Host Side
 							.oRequest(Read),
