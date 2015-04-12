@@ -10,28 +10,24 @@ module rgb2ycbcr (
         output          [7:0]   oG,
         output          [7:0]   oB
     );
-    assign  oR          =   iG;
-    assign  oG          =   iR;
+    assign  oR          =   iR;
+    assign  oG          =   iG;
     assign  oB          =   iB;
     
-    parameter   M11 = 19'h132;
-    parameter   M12 = 19'h259;
-    parameter   M13 = 19'h075;
-    parameter   M21 = 19'h753;
-    parameter   M22 = 19'h6ad;
-    parameter   M23 = 19'h200;
-    parameter   M31 = 19'h200;
-    parameter   M32 = 19'h653;
-    parameter   M33 = 19'h7ad;
+    parameter   M11 = 11'h132;
+    parameter   M12 = 11'h259;
+    parameter   M13 = 11'h075;
+    parameter   M21 = 11'h753;
+    parameter   M22 = 11'h6ad;
+    parameter   M23 = 11'h200;
+    parameter   M31 = 11'h200;
+    parameter   M32 = 11'h653;
+    parameter   M33 = 11'h7ad;
     
-    wire    [28:0]  res;
-    
-    mul mul11R  (
-        .aclr(iRst),
-        .clken(~iRst),
-        .clock(iClk),
-        .dataa({iR,10'd0}),
-        .datab(M11),
-        .result(res)
-    );
+     smult mul11R  (
+         .clock(iClk),
+         .dataa(iR),
+         .datab(iG),
+         .result({oR,oG})
+     );
 endmodule

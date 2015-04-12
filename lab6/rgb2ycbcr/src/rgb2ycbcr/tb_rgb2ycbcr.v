@@ -1,3 +1,4 @@
+`timescale 1 ns / 1 ps
 module tb_rgb2ycbcr ();
 
     reg             iCe;
