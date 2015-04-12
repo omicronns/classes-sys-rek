@@ -250,13 +250,13 @@ wire								sCCD_DVAL;
 wire								sdram_ctrl_clk;
 
 //Image processing connectors
-wire			[23:0]			debug_proc;
-wire 			[9:0] 			r_proc;
-wire 			[9:0] 			g_proc;
-wire 			[9:0] 			b_proc;
-wire 								h_sync_proc;
-wire 								v_sync_proc;
-wire 								vga_blank_proc;
+wire			[23:0]			wDebugProc;
+wire 			[7:0] 			wRProc;
+wire 			[7:0] 			wGProc;
+wire 			[7:0] 			wBProc;
+wire 								wHSyncProc;
+wire 								wVSyncProc;
+wire 								wDataValidProc;
 
 //power on start
 wire             				auto_start;
@@ -267,6 +267,7 @@ wire             				auto_start;
 assign	D5M_TRIGGER		=	1'b1;  // tRIGGER
 assign	D5M_RESET_N		=	DLY_RST_1;
 assign   VGA_CTRL_CLK 	=	VGA_CLK;
+assign	VGA_SYNC_N 		=	0;
 assign	LEDR				=	0;
 
 //D5M read 
@@ -325,7 +326,7 @@ SEG7_LUT_6 			u5	(
 							.oSEG0(HEX0),.oSEG1(HEX1),
 							.oSEG2(HEX2),.oSEG3(HEX3),
 							.oSEG4(HEX4),.oSEG5(HEX5),
-							.iDIG(debug_proc)
+							.iDIG(wDebugProc)
 						   );
 												
 sdram_pll 			u6	(
@@ -395,7 +396,7 @@ I2C_CCD_Config 	u8	(	//	Host Side
 							.iCLK(CLOCK2_50),
 							.iRST_N(DLY_RST_2),
 							.iEXPOSURE_ADJ(KEY[1]),
-							.iEXPOSURE_DEC_p(SW[0]),
+							.iEXPOSURE_DEC_p(SW[8]),
 							.iZOOM_MODE_SW(SW[9]),
 							//	I2C Side
 							.I2C_SCLK(D5M_SCLK),
@@ -404,44 +405,41 @@ I2C_CCD_Config 	u8	(	//	Host Side
 
 //Image processing
 image_processor  u9 	(
-							.i_r(r_proc[9:2]),
-							.i_g(g_proc[9:2]),
-							.i_b(b_proc[9:2]),
-							.i_h_sync(h_sync_proc),
-							.i_v_sync(v_sync_proc),
-							.i_vga_blank(vga_blank_proc),
+							.iClk(VGA_CTRL_CLK),
+							.iRst(SW[7]),
+							.iDebug({20'd0,SW[2:0]}),
+							.oDebug(wDebugProc),
 							
-							.o_r(VGA_R),
-							.o_g(VGA_G),
-							.o_b(VGA_B),
-							.o_h_sync(VGA_HS),
-							.o_v_sync(VGA_VS),
-							.o_vga_blank(VGA_BLANK_N),
+							.iR(wRProc),
+							.iG(wGProc),
+							.iB(wBProc),
+							.iHSync(wHSyncProc),
+							.iVSync(wVSyncProc),
+							.iDataValid(wDataValidProc),
+							
+							.oR(VGA_R),
+							.oG(VGA_G),
+							.oB(VGA_B),
+							.oHSync(VGA_HS),
+							.oVSync(VGA_VS),
+							.oDataValid(VGA_BLANK_N)
+							);
 
-							.o_debug(debug_proc),
-							.i_clk(VGA_CTRL_CLK)
-							);							
-			
 //VGA DISPLAY
-VGA_Controller	  u1	(	//	Host Side
-							.oRequest(Read),
-							.iRed(Read_DATA2[9:0]),
-					      .iGreen({Read_DATA1[14:10],Read_DATA2[14:10]}),
-						   .iBlue(Read_DATA1[9:0]),
+VGAController	  u1	(
+							.iClk(VGA_CTRL_CLK),
+							.inRst(DLY_RST_2),
+							.iR(Read_DATA2[9:2]),
+					      .iG({Read_DATA1[14:10],Read_DATA2[14:12]}),
+						   .iB(Read_DATA1[9:2]),
 
-							//	VGA Side
-							.oVGA_R(r_proc),
-							.oVGA_G(g_proc),
-							.oVGA_B(b_proc),
-							.oVGA_H_SYNC(h_sync_proc),
-							.oVGA_V_SYNC(v_sync_proc),
-							.oVGA_SYNC(VGA_SYNC_N),
-							.oVGA_BLANK(vga_blank_proc),
-							
-							//	Control Signal
-							.iCLK(VGA_CTRL_CLK),
-							.iRST_N(DLY_RST_2),
-							.iZOOM_MODE_SW(SW[9])
+							.oR(wRProc),
+							.oG(wGProc),
+							.oB(wBProc),
+							.oHSync(wHSyncProc),
+							.oVSync(wVSyncProc),
+							.oDataValid(wDataValidProc),
+							.oDataRequest(Read),
 						   );
 
 endmodule

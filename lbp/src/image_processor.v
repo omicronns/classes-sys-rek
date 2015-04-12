@@ -1,31 +1,31 @@
-module image_processor (		
-		input					i_h_sync,
-		input					i_v_sync,
-		input					i_vga_blank,
-		input		[7:0]		i_r,
-		input		[7:0]		i_g,
-		input		[7:0]		i_b,
+module image_processor (
+		input						iClk,
+		input						iRst,
+		input		[23:0]		iDebug,
+
+		input						iHSync,
+		input						iVSync,
+		input						iDataValid,
+		input				[7:0]	iR,
+		input				[7:0]	iG,
+		input				[7:0]	iB,
 		
-		output				o_h_sync,
-		output				o_v_sync,
-		output				o_vga_blank,
-		output  	[7:0] 	o_r,
-		output  	[7:0] 	o_g,
-		output  	[7:0] 	o_b,
-		
-		output	[23:0]	o_debug,
-		input					i_clk
+		output  	reg	[7:0] oR,
+		output  	reg	[7:0] oG,
+		output  	reg	[7:0] oB,
+		output					oHSync,
+		output					oVSync,
+		output					oDataValid,
+		output	[23:0]		oDebug
 	);
 	
 	reg	[23:0]	rDebug 			= 0;
-	reg	[23:0]	width 			= 0;
-	reg	[23:0]	height 			= 0;
-	reg				h_sync_last		= 0;
+	reg	[23:0]	rWidth 			= 0;
+	reg				rDataValidL		= 0;
 	
-	assign o_debug = rDebug;
-	assign o_r 		= i_r;
-	assign o_g 		= i_g;
-	assign o_b 		= i_b;	
+	
+	assign oDebug[14:12] = iDebug[2:0];
+	assign oDebug[11:0] 	= rDebug[11:0];
 	
 	delay_line #(
 		.DELAY(0),
@@ -34,18 +34,36 @@ module image_processor (
 		.ce(1),
 		.rst(0),
 		.clk(i_clk),
-		.in({i_h_sync,i_v_sync,i_vga_blank}),
-		.out({o_h_sync,o_v_sync,o_vga_blank})
+		.in({iHSync,iVSync,iDataValid}),
+		.out({oHSync,oVSync,oDataValid})
 	);
 	
-	always@(posedge i_clk)
+	always@(posedge iClk)
 	begin
-		case({h_sync_last,i_h_sync})
-			2'b10:	rDebug[11:0] <= width;
-			2'b00:	width <= 0;
-			2'b01:	width <= width + 1;
-			2'b11:	width <= width + 1;
+		case(iDebug)
+			3'd7:
+			begin
+				oR	<= 0;
+				oG <= 0;
+				oB <= 0;	
+			end
+			default:
+			begin
+				oR	<= iR;
+				oG	<= iG;
+				oB	<= iB;
+			end
 		endcase
-		h_sync_last <= i_h_sync;
+	end
+	
+	always@(posedge iClk)
+	begin
+		case({rDataValidL,iDataValid})
+			2'b10:	rDebug[11:0] <= rWidth;
+			2'b00:	rWidth <= 0;
+			2'b01:	rWidth <= rWidth + 1;
+			2'b11:	rWidth <= rWidth + 1;
+		endcase
+		rDataValidL <= iDataValid;
 	end
 endmodule
