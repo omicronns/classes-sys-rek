@@ -42,10 +42,7 @@ module image_processor (
             2'b10:  rDebug[11:0] <= rHeight;
             2'b00:  rHeight <= 0;
             2'b01:  rHeight <= 0;
-            2'b11:
-            begin
-                if({rDataValidL,iDataValid} == 2'b10) rHeight <= rHeight + 1;
-            end
+            2'b11:  if({rDataValidL,iDataValid} == 2'b10) rHeight <= rHeight + 1;
         endcase
         rLineValidL <= iLineValid;
     end
