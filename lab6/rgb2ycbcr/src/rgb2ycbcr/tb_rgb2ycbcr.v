@@ -8,9 +8,9 @@ module tb_rgb2ycbcr ();
     reg     [7:0]   iG;
     reg     [7:0]   iB;
 
-    wire    [7:0]   oR;
-    wire    [7:0]   oG;
-    wire    [7:0]   oB;
+    wire    [7:0]   oY;
+    wire    [7:0]   oCb;
+    wire    [7:0]   oCr;
 
     rgb2ycbcr   uut (
         .iCe(iCe),
@@ -20,9 +20,9 @@ module tb_rgb2ycbcr ();
         .iG(iG),
         .iB(iB),
 
-        .oR(oR),
-        .oG(oG),
-        .oB(oB)
+        .oY(oY),
+        .oCb(oCb),
+        .oCr(oCr)
     );
     
     initial
@@ -30,9 +30,9 @@ module tb_rgb2ycbcr ();
         iCe     =   1;
         iClk    =   0;
         iRst    =   0;
-        iR      =   115;
-        iG      =   78;
-        iB      =   98;
+        iR      =   255;
+        iG      =   255;
+        iB      =   255;
         
         #100;
         

@@ -4,7 +4,7 @@
 // MODULE: lpm_mult 
 
 // ============================================================
-// File Name: smult.v
+// File Name: mul.v
 // Megafunction Name(s):
 // 			lpm_mult
 //
@@ -37,19 +37,19 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module smult (
+module mul (
 	clock,
 	dataa,
 	datab,
 	result);
 
 	input	  clock;
-	input	[7:0]  dataa;
-	input	[7:0]  datab;
-	output	[15:0]  result;
+	input	[10:0]  dataa;
+	input	[18:0]  datab;
+	output	[18:0]  result;
 
-	wire [15:0] sub_wire0;
-	wire [15:0] result = sub_wire0[15:0];
+	wire [18:0] sub_wire0;
+	wire [18:0] result = sub_wire0[18:0];
 
 	lpm_mult	lpm_mult_component (
 				.clock (clock),
@@ -61,12 +61,12 @@ module smult (
 				.sum (1'b0));
 	defparam
 		lpm_mult_component.lpm_hint = "MAXIMIZE_SPEED=5",
-		lpm_mult_component.lpm_pipeline = 2,
-		lpm_mult_component.lpm_representation = "UNSIGNED",
+		lpm_mult_component.lpm_pipeline = 3,
+		lpm_mult_component.lpm_representation = "SIGNED",
 		lpm_mult_component.lpm_type = "LPM_MULT",
-		lpm_mult_component.lpm_widtha = 8,
-		lpm_mult_component.lpm_widthb = 8,
-		lpm_mult_component.lpm_widthp = 16;
+		lpm_mult_component.lpm_widtha = 11,
+		lpm_mult_component.lpm_widthb = 19,
+		lpm_mult_component.lpm_widthp = 19;
 
 
 endmodule
@@ -74,44 +74,43 @@ endmodule
 // ============================================================
 // CNX file retrieval info
 // ============================================================
-// Retrieval info: PRIVATE: AutoSizeResult NUMERIC "1"
+// Retrieval info: PRIVATE: AutoSizeResult NUMERIC "0"
 // Retrieval info: PRIVATE: B_isConstant NUMERIC "0"
 // Retrieval info: PRIVATE: ConstantB NUMERIC "0"
 // Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
-// Retrieval info: PRIVATE: LPM_PIPELINE NUMERIC "2"
+// Retrieval info: PRIVATE: LPM_PIPELINE NUMERIC "3"
 // Retrieval info: PRIVATE: Latency NUMERIC "1"
-// Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "1"
-// Retrieval info: PRIVATE: SignedMult NUMERIC "0"
+// Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
+// Retrieval info: PRIVATE: SignedMult NUMERIC "1"
 // Retrieval info: PRIVATE: USE_MULT NUMERIC "1"
 // Retrieval info: PRIVATE: ValidConstant NUMERIC "0"
-// Retrieval info: PRIVATE: WidthA NUMERIC "8"
-// Retrieval info: PRIVATE: WidthB NUMERIC "8"
-// Retrieval info: PRIVATE: WidthP NUMERIC "16"
+// Retrieval info: PRIVATE: WidthA NUMERIC "11"
+// Retrieval info: PRIVATE: WidthB NUMERIC "19"
+// Retrieval info: PRIVATE: WidthP NUMERIC "19"
 // Retrieval info: PRIVATE: aclr NUMERIC "0"
 // Retrieval info: PRIVATE: clken NUMERIC "0"
 // Retrieval info: PRIVATE: new_diagram STRING "1"
 // Retrieval info: PRIVATE: optimize NUMERIC "0"
 // Retrieval info: LIBRARY: lpm lpm.lpm_components.all
 // Retrieval info: CONSTANT: LPM_HINT STRING "MAXIMIZE_SPEED=5"
-// Retrieval info: CONSTANT: LPM_PIPELINE NUMERIC "2"
-// Retrieval info: CONSTANT: LPM_REPRESENTATION STRING "UNSIGNED"
+// Retrieval info: CONSTANT: LPM_PIPELINE NUMERIC "3"
+// Retrieval info: CONSTANT: LPM_REPRESENTATION STRING "SIGNED"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_MULT"
-// Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC "8"
-// Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "8"
-// Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "16"
+// Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC "11"
+// Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "19"
+// Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "19"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
-// Retrieval info: USED_PORT: dataa 0 0 8 0 INPUT NODEFVAL "dataa[7..0]"
-// Retrieval info: USED_PORT: datab 0 0 8 0 INPUT NODEFVAL "datab[7..0]"
-// Retrieval info: USED_PORT: result 0 0 16 0 OUTPUT NODEFVAL "result[15..0]"
+// Retrieval info: USED_PORT: dataa 0 0 11 0 INPUT NODEFVAL "dataa[10..0]"
+// Retrieval info: USED_PORT: datab 0 0 19 0 INPUT NODEFVAL "datab[18..0]"
+// Retrieval info: USED_PORT: result 0 0 19 0 OUTPUT NODEFVAL "result[18..0]"
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @dataa 0 0 8 0 dataa 0 0 8 0
-// Retrieval info: CONNECT: @datab 0 0 8 0 datab 0 0 8 0
-// Retrieval info: CONNECT: result 0 0 16 0 @result 0 0 16 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult_bb.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL smult_syn.v TRUE
+// Retrieval info: CONNECT: @dataa 0 0 11 0 dataa 0 0 11 0
+// Retrieval info: CONNECT: @datab 0 0 19 0 datab 0 0 19 0
+// Retrieval info: CONNECT: result 0 0 19 0 @result 0 0 19 0
+// Retrieval info: GEN_FILE: TYPE_NORMAL mul.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mul.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mul.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mul.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mul_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL mul_bb.v FALSE
 // Retrieval info: LIB_FILE: lpm
