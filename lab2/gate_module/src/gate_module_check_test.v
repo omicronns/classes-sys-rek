@@ -19,18 +19,18 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module gate_module_check_test(
-		input in
+        input in
     );
-	
-	initial
-	begin
-		#2;
-		if(~in) $stop;
-		#2;
-		if(in) $stop;
-		#2;
-		if(~in) $stop;
-		$stop;
-	end
+    
+    initial
+    begin
+        #2;
+        if(~in) $stop;
+        #2;
+        if(in) $stop;
+        #2;
+        if(~in) $stop;
+        $stop;
+    end
 
 endmodule

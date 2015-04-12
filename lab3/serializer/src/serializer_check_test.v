@@ -19,23 +19,23 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module serializer_check_test(
-		input clk,
-		input txd
+        input clk,
+        input txd
     );
-	
-	initial
-	begin
-		data_dest = $fopen("test_serializer/data/serial_vector.txt", "w");
-		$fclose(data_dest);
-	end
-	
-	integer data_dest;
-	always@(negedge clk)
-	begin
-		data_dest = $fopen("test_serializer/data/serial_vector.txt", "a");
-		if(txd)	$fwrite(data_dest, "1");
-		else	$fwrite(data_dest, "0");
-		$fclose(data_dest);
-	end
+    
+    initial
+    begin
+        data_dest = $fopen("test_serializer/data/serial_vector.txt", "w");
+        $fclose(data_dest);
+    end
+    
+    integer data_dest;
+    always@(negedge clk)
+    begin
+        data_dest = $fopen("test_serializer/data/serial_vector.txt", "a");
+        if(txd) $fwrite(data_dest, "1");
+        else    $fwrite(data_dest, "0");
+        $fclose(data_dest);
+    end
 
 endmodule

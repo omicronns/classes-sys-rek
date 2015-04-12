@@ -30,7 +30,7 @@
 //
 // --------------------------------------------------------------------
 //
-// Major Functions:	sdr_data_path
+// Major Functions: sdr_data_path
 //
 // --------------------------------------------------------------------
 //
@@ -65,9 +65,9 @@ reg     [`DSIZE/8-1:0]          DQM;
 always @(posedge CLK or negedge RESET_N)
 begin
         if (RESET_N == 0) 
-		DQM		<= `DSIZE/8-1'hF;
+        DQM     <= `DSIZE/8-1'hF;
         else
- 		DQM		<=	DM;                 
+        DQM     <=  DM;                 
 end
 
 assign DQOUT = DATAIN;

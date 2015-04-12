@@ -30,7 +30,7 @@
 //
 // --------------------------------------------------------------------
 //
-// Major Functions:	control_interface
+// Major Functions: control_interface
 //
 // --------------------------------------------------------------------
 //
@@ -46,7 +46,7 @@ module control_interface(
         CMD,
         ADDR,
         REF_ACK,
-		INIT_ACK,
+        INIT_ACK,
         CM_ACK,
         NOP,
         READA,
@@ -56,7 +56,7 @@ module control_interface(
         LOAD_MODE,
         SADDR,
         REF_REQ,
-		INIT_REQ,
+        INIT_REQ,
         CMD_ACK
         );
 
@@ -67,7 +67,7 @@ input                           RESET_N;                // System Reset
 input   [2:0]                   CMD;                    // Command input
 input   [`ASIZE-1:0]            ADDR;                   // Address
 input                           REF_ACK;                // Refresh request acknowledge
-input							INIT_ACK;				// Initial request acknowledge
+input                           INIT_ACK;               // Initial request acknowledge
 input                           CM_ACK;                 // Command acknowledge
 output                          NOP;                    // Decoded NOP command
 output                          READA;                  // Decoded READA command
@@ -95,7 +95,7 @@ reg                             CMD_ACK;
 
 // Internal signals
 reg     [15:0]                  timer;
-reg		[15:0]					init_timer;
+reg     [15:0]                  init_timer;
 
 
 
@@ -158,17 +158,17 @@ always @(posedge CLK or negedge RESET_N) begin
         else 
         begin
                 if (REF_ACK == 1)
-				begin
-                	timer <= REF_PER;
-					REF_REQ	<=0;
-				end
-				else if (INIT_REQ == 1)
-				begin
-                	timer <= REF_PER+200;
-					REF_REQ	<=0;					
-				end
+                begin
+                    timer <= REF_PER;
+                    REF_REQ <=0;
+                end
+                else if (INIT_REQ == 1)
+                begin
+                    timer <= REF_PER+200;
+                    REF_REQ <=0;                    
+                end
                 else
-                	timer <= timer - 1'b1;
+                    timer <= timer - 1'b1;
 
                 if (timer==0)
                     REF_REQ    <= 1;
@@ -181,58 +181,58 @@ always @(posedge CLK or negedge RESET_N) begin
         if (RESET_N == 0) 
         begin
                 init_timer      <= 0;
-				REFRESH         <= 0;
-                PRECHARGE      	<= 0; 
-				LOAD_MODE		<= 0;
-				INIT_REQ		<= 0;
+                REFRESH         <= 0;
+                PRECHARGE       <= 0; 
+                LOAD_MODE       <= 0;
+                INIT_REQ        <= 0;
         end        
         else 
         begin
                 if (init_timer < (INIT_PER+201))
-					init_timer 	<= init_timer+1;
-					
-				if (init_timer < INIT_PER)
-				begin
-					REFRESH		<=0;
-					PRECHARGE	<=0;
-					LOAD_MODE	<=0;
-					INIT_REQ	<=1;
-				end
-				else if(init_timer == (INIT_PER+20))
-				begin
-					REFRESH		<=0;
-					PRECHARGE	<=1;
-					LOAD_MODE	<=0;
-					INIT_REQ	<=0;
-				end
-				else if( 	(init_timer == (INIT_PER+40))	||
-							(init_timer == (INIT_PER+60))	||
-							(init_timer == (INIT_PER+80))	||
-							(init_timer == (INIT_PER+100))	||
-							(init_timer == (INIT_PER+120))	||
-							(init_timer == (INIT_PER+140))	||
-							(init_timer == (INIT_PER+160))	||
-							(init_timer == (INIT_PER+180))	)
-				begin
-					REFRESH		<=1;
-					PRECHARGE	<=0;
-					LOAD_MODE	<=0;
-					INIT_REQ	<=0;
-				end
-				else if(init_timer == (INIT_PER+200))
-				begin
-					REFRESH		<=0;
-					PRECHARGE	<=0;
-					LOAD_MODE	<=1;
-					INIT_REQ	<=0;				
-				end
-				else
-				begin
-					REFRESH		<=0;
-					PRECHARGE	<=0;
-					LOAD_MODE	<=0;
-					INIT_REQ	<=0;									
-				end
+                    init_timer  <= init_timer+1;
+                    
+                if (init_timer < INIT_PER)
+                begin
+                    REFRESH     <=0;
+                    PRECHARGE   <=0;
+                    LOAD_MODE   <=0;
+                    INIT_REQ    <=1;
+                end
+                else if(init_timer == (INIT_PER+20))
+                begin
+                    REFRESH     <=0;
+                    PRECHARGE   <=1;
+                    LOAD_MODE   <=0;
+                    INIT_REQ    <=0;
+                end
+                else if(    (init_timer == (INIT_PER+40))   ||
+                            (init_timer == (INIT_PER+60))   ||
+                            (init_timer == (INIT_PER+80))   ||
+                            (init_timer == (INIT_PER+100))  ||
+                            (init_timer == (INIT_PER+120))  ||
+                            (init_timer == (INIT_PER+140))  ||
+                            (init_timer == (INIT_PER+160))  ||
+                            (init_timer == (INIT_PER+180))  )
+                begin
+                    REFRESH     <=1;
+                    PRECHARGE   <=0;
+                    LOAD_MODE   <=0;
+                    INIT_REQ    <=0;
+                end
+                else if(init_timer == (INIT_PER+200))
+                begin
+                    REFRESH     <=0;
+                    PRECHARGE   <=0;
+                    LOAD_MODE   <=1;
+                    INIT_REQ    <=0;                
+                end
+                else
+                begin
+                    REFRESH     <=0;
+                    PRECHARGE   <=0;
+                    LOAD_MODE   <=0;
+                    INIT_REQ    <=0;                                    
+                end
         end
 end
 

@@ -11,12 +11,12 @@
 // \   \  /  \ 
 //  \___\/\___\
 //             
-// Command	: -w -sim -ofmt verilog C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.ngc C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.v 
-// Device	: 6slx45csg324-2
-// Input file	: C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.ngc
-// Output file	: C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.v
-// # of Modules	: 1
-// Design Name	: mul_19_12
+// Command  : -w -sim -ofmt verilog C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.ngc C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.v 
+// Device   : 6slx45csg324-2
+// Input file   : C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.ngc
+// Output file  : C:/Users/omicronns/Workspaces/webpack-ise/sr/lab4/zlozony/ipcore_dir/mul_19_12/tmp/_cg/mul_19_12.v
+// # of Modules : 1
+// Design Name  : mul_19_12
 // Xilinx        : C:\Xilinx\14.7\ISE_DS\ISE\
 //             
 // Purpose:    
@@ -1065,17 +1065,17 @@ module glbl ();
     assign (weak1, weak0) PRLD = PRLD_int;
 
     initial begin
-	GSR_int = 1'b1;
-	PRLD_int = 1'b1;
-	#(ROC_WIDTH)
-	GSR_int = 1'b0;
-	PRLD_int = 1'b0;
+    GSR_int = 1'b1;
+    PRLD_int = 1'b1;
+    #(ROC_WIDTH)
+    GSR_int = 1'b0;
+    PRLD_int = 1'b0;
     end
 
     initial begin
-	GTS_int = 1'b1;
-	#(TOC_WIDTH)
-	GTS_int = 1'b0;
+    GTS_int = 1'b1;
+    #(TOC_WIDTH)
+    GTS_int = 1'b0;
     end
 
 endmodule

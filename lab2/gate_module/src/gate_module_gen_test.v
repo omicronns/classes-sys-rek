@@ -19,25 +19,25 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module gate_module_gen_test(
-		output [7:0] x,
-		output [7:0] y
+        output [7:0] x,
+        output [7:0] y
     );
-	reg [7:0] xreg;
-	reg [7:0] yreg;
-	
-	assign x = xreg;
-	assign y = yreg;
-	
-	initial
-	begin
-		#1;
-		xreg = 8'hff;
-		yreg = 8'hff;
-		#2;
-		xreg = 8'hff;
-		yreg = 8'h00;
-		#2;
-		xreg = 8'haa;
-		yreg = 8'h0f;
-	end
+    reg [7:0] xreg;
+    reg [7:0] yreg;
+    
+    assign x = xreg;
+    assign y = yreg;
+    
+    initial
+    begin
+        #1;
+        xreg = 8'hff;
+        yreg = 8'hff;
+        #2;
+        xreg = 8'hff;
+        yreg = 8'h00;
+        #2;
+        xreg = 8'haa;
+        yreg = 8'h0f;
+    end
 endmodule

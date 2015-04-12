@@ -24,32 +24,32 @@
 
 module tb_serializer;
 
-	wire [7:0] 	data;
-	wire 		clk;
-	wire 		send;
-	wire 		txd;
-	
-	serializer_gen_test generator (
-		.data(data),
-		.send(send),
-		.clk(clk)
-	);
+    wire [7:0]  data;
+    wire        clk;
+    wire        send;
+    wire        txd;
+    
+    serializer_gen_test generator (
+        .data(data),
+        .send(send),
+        .clk(clk)
+    );
 
-	// Instantiate the Unit Under Test (UUT)
-	serializer #(
-		.WIDTH(8)
-	)
-	uut(
-		.data(data), 
-		.rst(0), 
-		.clk(clk), 
-		.send(send), 
-		.txd(txd)
-	);
-	
-	serializer_check_test writer (
-		.clk(clk),
-		.txd(txd)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    serializer #(
+        .WIDTH(8)
+    )
+    uut(
+        .data(data), 
+        .rst(0), 
+        .clk(clk), 
+        .send(send), 
+        .txd(txd)
+    );
+    
+    serializer_check_test writer (
+        .clk(clk),
+        .txd(txd)
+    );
       
 endmodule

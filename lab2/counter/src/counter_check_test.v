@@ -19,24 +19,24 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module counter_check_test #(
-		parameter WIDTH = 0,
-		parameter MODULUS = 0
-	)(
-		input [WIDTH - 1:0] in
-	);
-	
-	reg [WIDTH:0] i;
-	initial
-	begin
-		#1;
-		while(1)
-		begin
-			for(i = 0; i < MODULUS; i = i + 1)
-			begin
-				if(in != i) $stop;
-				#2;
-			end
-			$stop;
-		end
-	end
+        parameter WIDTH = 0,
+        parameter MODULUS = 0
+    )(
+        input [WIDTH - 1:0] in
+    );
+    
+    reg [WIDTH:0] i;
+    initial
+    begin
+        #1;
+        while(1)
+        begin
+            for(i = 0; i < MODULUS; i = i + 1)
+            begin
+                if(in != i) $stop;
+                #2;
+            end
+            $stop;
+        end
+    end
 endmodule

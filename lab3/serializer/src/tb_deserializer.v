@@ -24,29 +24,29 @@
 
 module tb_deserializer;
 
-	wire 		rxd;
-	wire 		rst;
-	wire 		clk;
-	wire [7:0] 	data;
-	wire 		received;
-	
-	deserializer_gen_test generator (
-		.rxd(rxd),
-		.clk(clk)
-	);
+    wire        rxd;
+    wire        rst;
+    wire        clk;
+    wire [7:0]  data;
+    wire        received;
+    
+    deserializer_gen_test generator (
+        .rxd(rxd),
+        .clk(clk)
+    );
 
-	// Instantiate the Unit Under Test (UUT)
-	deserializer uut (
-		.rxd(rxd), 
-		.rst(rst), 
-		.clk(clk), 
-		.data(data), 
-		.received(received)
-	);
-	
-	deserializer_check_test writer (
-		.received(received),
-		.data(data)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    deserializer uut (
+        .rxd(rxd), 
+        .rst(rst), 
+        .clk(clk), 
+        .data(data), 
+        .received(received)
+    );
+    
+    deserializer_check_test writer (
+        .received(received),
+        .data(data)
+    );
       
 endmodule

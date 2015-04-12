@@ -19,22 +19,22 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module latch #(
-		parameter WIDTH = 1
-	)(
-		input 					ce,
-		input 					rst,
-		input 					clk,
-		input  [WIDTH - 1:0] 	in,
-		output [WIDTH - 1:0] 	out
+        parameter WIDTH = 1
+    )(
+        input                   ce,
+        input                   rst,
+        input                   clk,
+        input  [WIDTH - 1:0]    in,
+        output [WIDTH - 1:0]    out
     );
-	reg [WIDTH - 1:0] out_mem = 0;
-	assign out = out_mem;
-	
-	always@(posedge clk or posedge rst)
-	begin
-		if(rst)	out_mem <= 0;
-		else
-			if(ce)	out_mem <= in;
-			else	out_mem <= out_mem;
-	end
+    reg [WIDTH - 1:0] out_mem = 0;
+    assign out = out_mem;
+    
+    always@(posedge clk or posedge rst)
+    begin
+        if(rst) out_mem <= 0;
+        else
+            if(ce)  out_mem <= in;
+            else    out_mem <= out_mem;
+    end
 endmodule

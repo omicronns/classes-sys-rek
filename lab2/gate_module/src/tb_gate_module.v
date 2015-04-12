@@ -24,28 +24,28 @@
 
 module tb_gate_module;
 
-	// Inputs
-	wire [7:0] x;
-	wire [7:0] y;
+    // Inputs
+    wire [7:0] x;
+    wire [7:0] y;
 
-	// Outputs
-	wire out;
-	
-	gate_module_gen_test generator (
-		.x(x),
-		.y(y)
-	);
+    // Outputs
+    wire out;
+    
+    gate_module_gen_test generator (
+        .x(x),
+        .y(y)
+    );
 
-	// Instantiate the Unit Under Test (UUT)
-	gate_module uut (
-		.x(x), 
-		.y(y), 
-		.out(out)
-	);
-	
-	gate_module_check_test checker (
-		.in(out)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    gate_module uut (
+        .x(x), 
+        .y(y), 
+        .out(out)
+    );
+    
+    gate_module_check_test checker (
+        .in(out)
+    );
       
 endmodule
 

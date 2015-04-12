@@ -19,19 +19,19 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module cumsum(
-		input 			clk,
-		input 			ce,
-		input 			rst,
-		input 	[13:0] 	in,
-		output 	[22:0] 	out
+        input           clk,
+        input           ce,
+        input           rst,
+        input   [13:0]  in,
+        output  [22:0]  out
     );
-	
-	sum_14_23 cumsummer (
-		.a(rst ? 0 : in),	// input [13 : 0] a
-		.b(rst ? 0 : out),	// input [22 : 0] b
-		.clk(clk), 			// input clk
-		.ce(ce), 			// input ce
-		.s(out)				// output [22 : 0] s
-	);
+    
+    sum_14_23 cumsummer (
+        .a(rst ? 0 : in),   // input [13 : 0] a
+        .b(rst ? 0 : out),  // input [22 : 0] b
+        .clk(clk),          // input clk
+        .ce(ce),            // input ce
+        .s(out)             // output [22 : 0] s
+    );
 
 endmodule

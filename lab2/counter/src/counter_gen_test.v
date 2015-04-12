@@ -19,18 +19,18 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module counter_gen_test(
-		output clk
+        output clk
    );
-	reg	mem = 1'b0;
-	
-	initial
-	begin
-		while(1)
-		begin
-			#1;	mem = 1'b0;
-			#1;	mem = 1'b1;
-		end
-	end
-	
-	assign clk = mem;
+    reg mem = 1'b0;
+    
+    initial
+    begin
+        while(1)
+        begin
+            #1; mem = 1'b0;
+            #1; mem = 1'b1;
+        end
+    end
+    
+    assign clk = mem;
 endmodule

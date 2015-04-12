@@ -22,35 +22,35 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 module tb_counter #(
-	parameter MODULUS = 10,
-	parameter WIDTH = $clog2(MODULUS)
-	);
-	
-	wire				clk;
-	wire[WIDTH - 1:0]	data;
-	
-	counter_gen_test
-	generator (
-		.clk(clk)
-	);
-	
-	counter #(
-		.WIDTH(WIDTH),
-		.MODULUS(MODULUS)
-	)
-	uut (
-		.ce(1'b1),
-		.clr(1'b0),
-		.clk(clk),
-		.out(data)
-	);
-	
-	counter_check_test #(
-		.WIDTH(WIDTH),
-		.MODULUS(MODULUS)
-	)
-	checker (
-		.in(data)
-	);
+    parameter MODULUS = 10,
+    parameter WIDTH = $clog2(MODULUS)
+    );
+    
+    wire                clk;
+    wire[WIDTH - 1:0]   data;
+    
+    counter_gen_test
+    generator (
+        .clk(clk)
+    );
+    
+    counter #(
+        .WIDTH(WIDTH),
+        .MODULUS(MODULUS)
+    )
+    uut (
+        .ce(1'b1),
+        .clr(1'b0),
+        .clk(clk),
+        .out(data)
+    );
+    
+    counter_check_test #(
+        .WIDTH(WIDTH),
+        .MODULUS(MODULUS)
+    )
+    checker (
+        .in(data)
+    );
 endmodule
 

@@ -19,13 +19,13 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module mux #(
-		parameter	INPUT_COUNT = 4,
-		parameter	ADDR_WIDTH  = $clog2(INPUT_COUNT)
-	)(
-		input [ADDR_WIDTH - 1:0] 	addr,
-		input [INPUT_COUNT - 1:0] 	in,
-		output 					 	out
+        parameter   INPUT_COUNT = 4,
+        parameter   ADDR_WIDTH  = $clog2(INPUT_COUNT)
+    )(
+        input [ADDR_WIDTH - 1:0]    addr,
+        input [INPUT_COUNT - 1:0]   in,
+        output                      out
     );
-	
-	assign out = in[addr];
+    
+    assign out = in[addr];
 endmodule

@@ -24,41 +24,41 @@
 
 module tb_or_gate;
 
-	// Inputs
-	reg [9:0] i;
+    // Inputs
+    reg [9:0] i;
 
-	// Outputs
-	wire o;
+    // Outputs
+    wire o;
 
-	// Instantiate the Unit Under Test (UUT)
-	or_gate uut (
-		.i(i), 
-		.o(o)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    or_gate uut (
+        .i(i), 
+        .o(o)
+    );
 
-	integer log;
-	integer j;
-	initial
-	begin
-		log = $fopen("correct_or_gate/data/log.txt", "w");
-		$fwrite(log, "or_gate test log\n");
+    integer log;
+    integer j;
+    initial
+    begin
+        log = $fopen("correct_or_gate/data/log.txt", "w");
+        $fwrite(log, "or_gate test log\n");
 
-		// Wait 100 ns for global reset to finish
-		#100;
-		
-		// Add stimulus here
-		i = 0;
-		#1;
-		if(o)	$fwrite(log, "%d\n", j);
-		#1;
-		for(j = 1; j < 2**10; j = j + 1)
-		begin
-			i = j;
-			#1;
-			if(~o)	$fwrite(log, "%d\n", j);
-			#1;
-		end
-		$fclose(log);
-	end
+        // Wait 100 ns for global reset to finish
+        #100;
+        
+        // Add stimulus here
+        i = 0;
+        #1;
+        if(o)   $fwrite(log, "%d\n", j);
+        #1;
+        for(j = 1; j < 2**10; j = j + 1)
+        begin
+            i = j;
+            #1;
+            if(~o)  $fwrite(log, "%d\n", j);
+            #1;
+        end
+        $fclose(log);
+    end
 endmodule
 

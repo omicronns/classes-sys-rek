@@ -24,48 +24,48 @@
 
 module tb_cumsum;
 
-	// Inputs
-	reg clk;
-	reg ce;
-	reg rst;
-	reg [13:0] in;
+    // Inputs
+    reg clk;
+    reg ce;
+    reg rst;
+    reg [13:0] in;
 
-	// Outputs
-	wire [22:0] out;
+    // Outputs
+    wire [22:0] out;
 
-	// Instantiate the Unit Under Test (UUT)
-	cumsum uut (
-		.clk(clk), 
-		.ce(ce), 
-		.rst(rst), 
-		.in(in), 
-		.out(out)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    cumsum uut (
+        .clk(clk), 
+        .ce(ce), 
+        .rst(rst), 
+        .in(in), 
+        .out(out)
+    );
 
-	integer i;
-	integer sum;
-	initial begin
-		// Initialize Inputs
-		clk = 0;
-		ce 	= 1;
-		rst = 0;
-		in 	= 0;
-		sum = 0;
+    integer i;
+    integer sum;
+    initial begin
+        // Initialize Inputs
+        clk = 0;
+        ce  = 1;
+        rst = 0;
+        in  = 0;
+        sum = 0;
 
-		// Wait 100 ns for global reset to finish
-		#100;
+        // Wait 100 ns for global reset to finish
+        #100;
         
-		// Add stimulus here
-		in = 2;
-		for(i = 0; i < 50; i = i + 1)
-		begin
-			if(out != sum)	$stop;
-			clk = 0; #1;
-			sum = sum + 2;
-			clk = 1; #1;
-		end
-		$stop;
-	end
+        // Add stimulus here
+        in = 2;
+        for(i = 0; i < 50; i = i + 1)
+        begin
+            if(out != sum)  $stop;
+            clk = 0; #1;
+            sum = sum + 2;
+            clk = 1; #1;
+        end
+        $stop;
+    end
       
 endmodule
 

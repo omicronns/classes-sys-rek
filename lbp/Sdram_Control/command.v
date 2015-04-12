@@ -30,7 +30,7 @@
 //
 // --------------------------------------------------------------------
 //
-// Major Functions:	command
+// Major Functions: command
 //
 // --------------------------------------------------------------------
 //
@@ -51,9 +51,9 @@ module command(
         PRECHARGE,
         LOAD_MODE,
         REF_REQ,
-		INIT_REQ,
-		PM_STOP,
-		PM_DONE,
+        INIT_REQ,
+        PM_STOP,
+        PM_DONE,
         REF_ACK,
         CM_ACK,
         OE,
@@ -78,9 +78,9 @@ input                           REFRESH;                // Decoded REFRESH comma
 input                           PRECHARGE;              // Decoded PRECHARGE command
 input                           LOAD_MODE;              // Decoded LOAD_MODE command
 input                           REF_REQ;                // Hidden refresh request
-input							INIT_REQ;				// Hidden initial request
-input							PM_STOP;				// Page mode stop
-input							PM_DONE;				// Page mode done
+input                           INIT_REQ;               // Hidden initial request
+input                           PM_STOP;                // Page mode stop
+input                           PM_DONE;                // Page mode done
 output                          REF_ACK;                // Refresh request acknowledge
 output                          CM_ACK;                 // Command acknowledge
 output                          OE;                     // OE signal for data path module
@@ -109,7 +109,7 @@ reg                             do_writea;
 reg                             do_refresh;
 reg                             do_precharge;
 reg                             do_load_mode;
-reg								do_initial;
+reg                             do_initial;
 reg                             command_done;
 reg     [7:0]                   command_delay;
 reg     [1:0]                   rw_shift;
@@ -123,8 +123,8 @@ reg                             oe3;
 reg                             oe4;
 reg     [3:0]                   rp_shift;
 reg                             rp_done;
-reg								ex_read;
-reg								ex_write;
+reg                             ex_read;
+reg                             ex_write;
 
 wire    [`ROWSIZE - 1:0]        rowaddr;
 wire    [`COLSIZE - 1:0]        coladdr;
@@ -145,40 +145,40 @@ begin
                 do_refresh      <= 0;
                 do_precharge    <= 0;
                 do_load_mode    <= 0;
-				do_initial		<= 0;
+                do_initial      <= 0;
                 command_done    <= 0;
                 command_delay   <= 0;
                 rw_flag         <= 0;
                 rp_shift        <= 0;
                 rp_done         <= 0;
-				ex_read			<= 0;
-				ex_write		<= 0;
+                ex_read         <= 0;
+                ex_write        <= 0;
         end
         
         else
         begin
 
 //  Issue the appropriate command if the sdram is not currently busy
-			if( INIT_REQ == 1 )
-			begin
+            if( INIT_REQ == 1 )
+            begin
                 do_reada        <= 0;
                 do_writea       <= 0;
                 do_refresh      <= 0;
                 do_precharge    <= 0;
                 do_load_mode    <= 0;
-				do_initial		<= 1;
+                do_initial      <= 1;
                 command_done    <= 0;
                 command_delay   <= 0;
                 rw_flag         <= 0;
                 rp_shift        <= 0;
                 rp_done         <= 0;
-				ex_read			<= 0;
-				ex_write		<= 0;
-			end
-			else
-			begin
-				do_initial		<= 0;
-				
+                ex_read         <= 0;
+                ex_write        <= 0;
+            end
+            else
+            begin
+                do_initial      <= 0;
+                
                 if ((REF_REQ == 1 | REFRESH == 1) & command_done == 0 & do_refresh == 0 & rp_done == 0         // Refresh
                         & do_reada == 0 & do_writea == 0)
                         do_refresh <= 1;         
@@ -187,26 +187,26 @@ begin
 
                 if ((READA == 1) & (command_done == 0) & (do_reada == 0) & (rp_done == 0) & (REF_REQ == 0))    // READA
                 begin
-				        do_reada <= 1;
-						ex_read <= 1;
-				end
+                        do_reada <= 1;
+                        ex_read <= 1;
+                end
                 else
                         do_reada <= 0;
                     
                 if ((WRITEA == 1) & (command_done == 0) & (do_writea == 0) & (rp_done == 0) & (REF_REQ == 0))  // WRITEA
                 begin
-				        do_writea <= 1;
-						ex_write <= 1;
-				end
+                        do_writea <= 1;
+                        ex_write <= 1;
+                end
                 else
                         do_writea <= 0;
 
-                if ((PRECHARGE == 1) & (command_done == 0) & (do_precharge == 0))	// PRECHARGE
+                if ((PRECHARGE == 1) & (command_done == 0) & (do_precharge == 0))   // PRECHARGE
                         do_precharge <= 1;
                 else
                         do_precharge <= 0;
  
-                if ((LOAD_MODE == 1) & (command_done == 0) & (do_load_mode == 0))	// LOADMODE
+                if ((LOAD_MODE == 1) & (command_done == 0) & (do_load_mode == 0))   // LOADMODE
                         do_load_mode <= 1;
                 else
                         do_load_mode <= 0;
@@ -226,43 +226,43 @@ begin
                 else
                 begin
                         command_done        <= command_delay[0];                // the command_delay shift operation
-                        command_delay		<= (command_delay>>1);
+                        command_delay       <= (command_delay>>1);
                 end 
                 
  
  // start additional timer that is used for the refresh, writea, reada commands               
                 if (command_delay[0] == 0 & command_done == 1)
                 begin
-                	rp_shift <= 4'b1111;
-                	rp_done <= 1;
+                    rp_shift <= 4'b1111;
+                    rp_done <= 1;
                 end
                 else
-                begin						
-					if(SC_PM == 0)
-					begin
-						rp_shift	<= (rp_shift>>1);
-                    	rp_done		<= rp_shift[0];
-					end
-					else
-					begin
-						if( (ex_read == 0) && (ex_write == 0) )
-						begin
-							rp_shift	<= (rp_shift>>1);
-        	            	rp_done		<= rp_shift[0];
-						end
-						else
-						begin
-							if( PM_STOP==1 )
-							begin
-								rp_shift	<= (rp_shift>>1);
-        	      		      	rp_done     <= rp_shift[0];
-								ex_read		<= 1'b0;
-								ex_write	<= 1'b0;
-							end					
-						end
-					end
+                begin                       
+                    if(SC_PM == 0)
+                    begin
+                        rp_shift    <= (rp_shift>>1);
+                        rp_done     <= rp_shift[0];
+                    end
+                    else
+                    begin
+                        if( (ex_read == 0) && (ex_write == 0) )
+                        begin
+                            rp_shift    <= (rp_shift>>1);
+                            rp_done     <= rp_shift[0];
+                        end
+                        else
+                        begin
+                            if( PM_STOP==1 )
+                            begin
+                                rp_shift    <= (rp_shift>>1);
+                                rp_done     <= rp_shift[0];
+                                ex_read     <= 1'b0;
+                                ex_write    <= 1'b0;
+                            end                 
+                        end
+                    end
                 end
-			end
+            end
         end
 end
 
@@ -287,8 +287,8 @@ begin
                 begin
                         if (do_writea == 1)
                         begin
-                                if (SC_BL == 1)				//  Set the shift register to the appropriate
-                                        oe_shift <= 0;		// value based on burst length.
+                                if (SC_BL == 1)             //  Set the shift register to the appropriate
+                                        oe_shift <= 0;      // value based on burst length.
                                 else if (SC_BL == 2)
                                         oe_shift <= 1;
                                 else if (SC_BL == 4)
@@ -312,7 +312,7 @@ begin
                 end
                 else
                 begin
-                        if (do_writea == 1)					 // OE generation for page mode accesses
+                        if (do_writea == 1)                  // OE generation for page mode accesses
                                 oe4   <= 1;
                         else if (do_precharge == 1 | do_reada == 1 | do_refresh==1 | do_initial == 1 | PM_STOP==1 )
                                 oe4   <= 0;
@@ -408,7 +408,7 @@ always @(posedge CLK ) begin
         else begin
                 CKE <= 1;
 
-// Generate SA 	
+// Generate SA  
                 if (do_writea == 1 | do_reada == 1)    // ACTIVATE command is being issued, so present the row address
                         SA <= rowaddr;
                 else
@@ -420,7 +420,7 @@ always @(posedge CLK ) begin
                         BA <= 0;                       // Set BA=0 if performing a precharge or load_mode command
                 else
                         BA <= bankaddr[1:0];           // else set it with the appropriate address bits
-		
+        
                 if (do_refresh==1 | do_precharge==1 | do_load_mode==1 | do_initial==1)
                         CS_N <= 0;                                    // Select both chip selects if performing
                 else                                                  // refresh, precharge(all) or load_mode
@@ -428,14 +428,14 @@ always @(posedge CLK ) begin
                         CS_N[0] <= SADDR[`ASIZE-1];                   // else set the chip selects based off of the
                         CS_N[1] <= ~SADDR[`ASIZE-1];                  // msb address bit
                 end
-				
-				if(do_load_mode==1)
-				SA	  <= {2'b00,SDR_CL,SDR_BT,SDR_BL};
+                
+                if(do_load_mode==1)
+                SA    <= {2'b00,SDR_CL,SDR_BT,SDR_BL};
 
 
 //Generate the appropriate logic levels on RAS_N, CAS_N, and WE_N
 //depending on the issued command.
-//		
+//      
                 if ( do_refresh==1 ) begin                        // Refresh: S=00, RAS=0, CAS=0, WE=1
                         RAS_N <= 0;
                         CAS_N <= 0;
@@ -466,11 +466,11 @@ always @(posedge CLK ) begin
                         CAS_N <= 0;
                         WE_N  <= rw_flag;
                 end
-				else if (do_initial ==1) begin
+                else if (do_initial ==1) begin
                         RAS_N <= 1;
                         CAS_N <= 1;
-                        WE_N  <= 1;				
-				end
+                        WE_N  <= 1;             
+                end
                 else begin                                      // No Operation: RAS=1, CAS=1, WE=1
                         RAS_N <= 1;
                         CAS_N <= 1;

@@ -23,43 +23,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 module tb_delay_line #(
-		parameter	WIDTH = 8,
-		parameter	DELAY = 4
-	);
-	
-	wire 				clk;
-	wire [WIDTH - 1:0] 	data_in;
-	wire [WIDTH - 1:0] 	data_out;
-	
-	delay_line_gen_test #(
-		.WIDTH(WIDTH),
-		.DELAY(DELAY)
-	)
-	generator (
-		.out(data_in),
-		.clk(clk)
-	);
+        parameter   WIDTH = 8,
+        parameter   DELAY = 4
+    );
+    
+    wire                clk;
+    wire [WIDTH - 1:0]  data_in;
+    wire [WIDTH - 1:0]  data_out;
+    
+    delay_line_gen_test #(
+        .WIDTH(WIDTH),
+        .DELAY(DELAY)
+    )
+    generator (
+        .out(data_in),
+        .clk(clk)
+    );
 
-	// Instantiate the Unit Under Test (UUT)
-	delay_line #(
-		.WIDTH(WIDTH),
-		.DELAY(DELAY)
-	)
-	uut (
-		.ce(1'b1), 
-		.rst(1'b0), 
-		.clk(clk), 
-		.in(data_in), 
-		.out(data_out)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    delay_line #(
+        .WIDTH(WIDTH),
+        .DELAY(DELAY)
+    )
+    uut (
+        .ce(1'b1), 
+        .rst(1'b0), 
+        .clk(clk), 
+        .in(data_in), 
+        .out(data_out)
+    );
 
-	delay_line_check_test #(
-		.WIDTH(WIDTH),
-		.DELAY(DELAY)
-	)
-	checker (
-		.in(data_out)
-	);
+    delay_line_check_test #(
+        .WIDTH(WIDTH),
+        .DELAY(DELAY)
+    )
+    checker (
+        .in(data_out)
+    );
       
 endmodule
 

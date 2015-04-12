@@ -19,22 +19,22 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module deserializer_check_test(
-		input 		received,
-		input [7:0]	data
+        input       received,
+        input [7:0] data
     );
-	
-	integer data_dest;
-	
-	initial
-	begin
-		data_dest = $fopen("test_serializer/data/out_parallel_vector.txt", "w");
-		$fclose(data_dest);
-	end
+    
+    integer data_dest;
+    
+    initial
+    begin
+        data_dest = $fopen("test_serializer/data/out_parallel_vector.txt", "w");
+        $fclose(data_dest);
+    end
 
-	always@(posedge received)
-	begin
-		data_dest = $fopen("test_serializer/data/out_parallel_vector.txt", "a");
-		$fwrite(data_dest, "%c", data);
-		$fclose(data_dest);
-	end
+    always@(posedge received)
+    begin
+        data_dest = $fopen("test_serializer/data/out_parallel_vector.txt", "a");
+        $fwrite(data_dest, "%c", data);
+        $fclose(data_dest);
+    end
 endmodule
