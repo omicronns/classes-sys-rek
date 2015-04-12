@@ -240,6 +240,7 @@ wire        [7:0]           wBProc;
 wire                        wHSyncProc;
 wire                        wVSyncProc;
 wire                        wDataValidProc;
+wire                        wLineValidProc;
 
 //power on start
 wire                        auto_start;
@@ -390,24 +391,24 @@ I2C_CCD_Config      u8  (
 
 //Image processing
 image_processor     u9  (
-        .iClk(VGA_CTRL_CLK),
-        .iRst(SW[7]),
-        .iDebug({20'd0,SW[2:0]}),
-        .oDebug(wDebugProc),
-
         .iR(wRProc),
         .iG(wGProc),
         .iB(wBProc),
         .iHSync(wHSyncProc),
         .iVSync(wVSyncProc),
         .iDataValid(wDataValidProc),
+        .iLineValid(wLineValidProc),
+        .iClk(VGA_CTRL_CLK),
+        .iRst(SW[7]),
+        .iDebug({13'd0,SW[9:0]}),
 
         .oR(VGA_R),
         .oG(VGA_G),
         .oB(VGA_B),
         .oHSync(VGA_HS),
         .oVSync(VGA_VS),
-        .oDataValid(VGA_BLANK_N)
+        .oDataValid(VGA_BLANK_N),
+        .oDebug(wDebugProc)
     );
 
 //VGA DISPLAY
@@ -424,6 +425,7 @@ VGAController       u1  (
         .oHSync(wHSyncProc),
         .oVSync(wVSyncProc),
         .oDataValid(wDataValidProc),
+        .oLineValid(wLineValidProc),
         .oDataRequest(Read),
     );
 endmodule
