@@ -46,10 +46,10 @@ module mul (
 	input	  clock;
 	input	[10:0]  dataa;
 	input	[18:0]  datab;
-	output	[18:0]  result;
+	output	[19:0]  result;
 
-	wire [18:0] sub_wire0;
-	wire [18:0] result = sub_wire0[18:0];
+	wire [19:0] sub_wire0;
+	wire [19:0] result = sub_wire0[19:0];
 
 	lpm_mult	lpm_mult_component (
 				.clock (clock),
@@ -66,7 +66,7 @@ module mul (
 		lpm_mult_component.lpm_type = "LPM_MULT",
 		lpm_mult_component.lpm_widtha = 11,
 		lpm_mult_component.lpm_widthb = 19,
-		lpm_mult_component.lpm_widthp = 19;
+		lpm_mult_component.lpm_widthp = 20;
 
 
 endmodule
@@ -86,7 +86,7 @@ endmodule
 // Retrieval info: PRIVATE: ValidConstant NUMERIC "0"
 // Retrieval info: PRIVATE: WidthA NUMERIC "11"
 // Retrieval info: PRIVATE: WidthB NUMERIC "19"
-// Retrieval info: PRIVATE: WidthP NUMERIC "19"
+// Retrieval info: PRIVATE: WidthP NUMERIC "20"
 // Retrieval info: PRIVATE: aclr NUMERIC "0"
 // Retrieval info: PRIVATE: clken NUMERIC "0"
 // Retrieval info: PRIVATE: new_diagram STRING "1"
@@ -98,15 +98,15 @@ endmodule
 // Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_MULT"
 // Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC "11"
 // Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "19"
-// Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "19"
+// Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "20"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
 // Retrieval info: USED_PORT: dataa 0 0 11 0 INPUT NODEFVAL "dataa[10..0]"
 // Retrieval info: USED_PORT: datab 0 0 19 0 INPUT NODEFVAL "datab[18..0]"
-// Retrieval info: USED_PORT: result 0 0 19 0 OUTPUT NODEFVAL "result[18..0]"
+// Retrieval info: USED_PORT: result 0 0 20 0 OUTPUT NODEFVAL "result[19..0]"
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
 // Retrieval info: CONNECT: @dataa 0 0 11 0 dataa 0 0 11 0
 // Retrieval info: CONNECT: @datab 0 0 19 0 datab 0 0 19 0
-// Retrieval info: CONNECT: result 0 0 19 0 @result 0 0 19 0
+// Retrieval info: CONNECT: result 0 0 20 0 @result 0 0 20 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL mul.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL mul.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL mul.cmp FALSE
