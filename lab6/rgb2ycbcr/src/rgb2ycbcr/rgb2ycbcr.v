@@ -1,7 +1,9 @@
+/*******************************************************************************
+ *  Description:    Convert RGB colorspace to YCbCr colorspace
+ *  Latency:        5
+ ******************************************************************************/
 module rgb2ycbcr (
-        input                   iCe,
         input                   iClk,
-        input                   iRst,
         input           [7:0]   iR,
         input           [7:0]   iG,
         input           [7:0]   iB,
@@ -11,26 +13,31 @@ module rgb2ycbcr (
         output          [7:0]   oCr
     );
     
-    parameter   M11 = 11'h132;
-    parameter   M12 = 11'h259;
-    parameter   M13 = 11'h075;
-    parameter   M21 = 11'h753;
-    parameter   M22 = 11'h6ad;
-    parameter   M23 = 11'h200;
-    parameter   M31 = 11'h200;
-    parameter   M32 = 11'h653;
-    parameter   M33 = 11'h7ad;
+    //mul output must be             :  PREC+10 bits long
+    //add output  and inputs must be :  PREC+10 bits long
+    parameter   PREC    = 10;
+    
+    //constants
+    parameter   M11     = 11'h132;
+    parameter   M12     = 11'h259;
+    parameter   M13     = 11'h075;
+    parameter   M21     = 11'h753;
+    parameter   M22     = 11'h6ad;
+    parameter   M23     = 11'h200;
+    parameter   M31     = 11'h200;
+    parameter   M32     = 11'h653;
+    parameter   M33     = 11'h7ad;
     
     /**************************************
      *  Compute Y
      *************************************/
-    wire    [18:0]  R11;
-    wire    [18:0]  G12;
-    wire    [18:0]  B13;
-    wire    [18:0]  Y11p12;
-    wire    [18:0]  Y13pc;
-    wire    [18:0]  Y;
-    assign  oY  =   Y[16:9];
+    wire    [PREC+9:0]  R11;
+    wire    [PREC+9:0]  G12;
+    wire    [PREC+9:0]  B13;
+    wire    [PREC+9:0]  Y11p12;
+    wire    [PREC+9:0]  Y13pc;
+    wire    [PREC+9:0]  Y;
+    assign  oY  =   Y[PREC+7:PREC];
     
     mul mul11R  (
         .clock(iClk),
@@ -77,13 +84,13 @@ module rgb2ycbcr (
     /**************************************
      *  Compute Cb
      *************************************/
-    wire    [18:0]  R21;
-    wire    [18:0]  G22;
-    wire    [18:0]  B23;
-    wire    [18:0]  Cb21p22;
-    wire    [18:0]  Cb23pc;
-    wire    [18:0]  Cb;
-    assign  oCb  =  Cb[16:9];
+    wire    [PREC+9:0]  R21;
+    wire    [PREC+9:0]  G22;
+    wire    [PREC+9:0]  B23;
+    wire    [PREC+9:0]  Cb21p22;
+    wire    [PREC+9:0]  Cb23pc;
+    wire    [PREC+9:0]  Cb;
+    assign  oCb  =  Cb[PREC+7:PREC];
     
     mul mul21R  (
         .clock(iClk),
@@ -116,7 +123,7 @@ module rgb2ycbcr (
     add add3cCb  (
         .clock(iClk),
         .dataa(B23),
-        .datab(128 << 9),
+        .datab(128 << PREC),
         .result(Cb23pc)
     );
     
@@ -130,13 +137,13 @@ module rgb2ycbcr (
     /**************************************
      *  Compute Cr
      *************************************/
-    wire    [18:0]  R31;
-    wire    [18:0]  G32;
-    wire    [18:0]  B33;
-    wire    [18:0]  Cr31p32;
-    wire    [18:0]  Cr33pc;
-    wire    [18:0]  Cr;
-    assign  oCr  =  Cr[16:9];
+    wire    [PREC+9:0]  R31;
+    wire    [PREC+9:0]  G32;
+    wire    [PREC+9:0]  B33;
+    wire    [PREC+9:0]  Cr31p32;
+    wire    [PREC+9:0]  Cr33pc;
+    wire    [PREC+9:0]  Cr;
+    assign  oCr  =  Cr[PREC+7:PREC];
     
     mul mul31R  (
         .clock(iClk),
@@ -169,7 +176,7 @@ module rgb2ycbcr (
     add add3cCr  (
         .clock(iClk),
         .dataa(B33),
-        .datab(128 << 9),
+        .datab(128 << PREC),
         .result(Cr33pc)
     );
     

@@ -88,7 +88,7 @@ module image_processor (
     assign  wRMux[0]        =   iR;
     assign  wGMux[0]        =   iG;
     assign  wBMux[0]        =   iB;
-    assign  wDebugMux[0]    =   iDebug;
+    assign  wDebugMux[0]    =   0;
     assign  wHSync[0]       =   iHSync;
     assign  wVSync[0]       =   iVSync;
     assign  wLineValid[0]   =   iLineValid;
@@ -102,24 +102,24 @@ module image_processor (
         .iG(iG),
         .iB(iB),
 
-        .oR(wRMux[1]),
-        .oG(wGMux[1]),
-        .oB(wBMux[1])
+        .oY(wRMux[1]),
+        .oCb(wGMux[1]),
+        .oCr(wBMux[1])
     );
 //     assign  wRMux[1]        =   iR;
 //     assign  wGMux[1]        =   iG;
 //     assign  wBMux[1]        =   iB;
-    assign  wDebugMux[1]    =   iDebug;
     assign  wHSync[1]       =   iHSync;
     assign  wVSync[1]       =   iVSync;
     assign  wLineValid[1]   =   iLineValid;
     assign  wFrameValid[1]  =   iFrameValid;
+    assign  wDebugMux[1]    =   1;
     
     //Option 2
     assign  wRMux[2]        =   iR;
     assign  wGMux[2]        =   iG;
     assign  wBMux[2]        =   iB;
-    assign  wDebugMux[2]    =   iDebug;
+    assign  wDebugMux[2]    =   2;
     assign  wHSync[2]       =   iHSync;
     assign  wVSync[2]       =   iVSync;
     assign  wLineValid[2]   =   iLineValid;
@@ -129,7 +129,7 @@ module image_processor (
     assign  wRMux[3]        =   iR;
     assign  wGMux[3]        =   iG;
     assign  wBMux[3]        =   iB;
-    assign  wDebugMux[3]    =   iDebug;
+    assign  wDebugMux[3]    =   3;
     assign  wHSync[3]       =   iHSync;
     assign  wVSync[3]       =   iVSync;
     assign  wLineValid[3]   =   iLineValid;
@@ -139,7 +139,7 @@ module image_processor (
     assign  wRMux[4]        =   iR;
     assign  wGMux[4]        =   iG;
     assign  wBMux[4]        =   iB;
-    assign  wDebugMux[4]    =   iDebug;
+    assign  wDebugMux[4]    =   4;
     assign  wHSync[4]       =   iHSync;
     assign  wVSync[4]       =   iVSync;
     assign  wLineValid[4]   =   iLineValid;
@@ -149,7 +149,7 @@ module image_processor (
     assign  wRMux[5]        =   iR;
     assign  wGMux[5]        =   iG;
     assign  wBMux[5]        =   iB;
-    assign  wDebugMux[5]    =   iDebug;
+    assign  wDebugMux[5]    =   5;
     assign  wHSync[5]       =   iHSync;
     assign  wVSync[5]       =   iVSync;
     assign  wLineValid[5]   =   iLineValid;
@@ -159,7 +159,7 @@ module image_processor (
     assign  wRMux[6]        =   iR;
     assign  wGMux[6]        =   iG;
     assign  wBMux[6]        =   iB;
-    assign  wDebugMux[6]    =   iDebug;
+    assign  wDebugMux[6]    =   6;
     assign  wHSync[6]       =   iHSync;
     assign  wVSync[6]       =   iVSync;
     assign  wLineValid[6]   =   iLineValid;
@@ -169,7 +169,7 @@ module image_processor (
     assign  wRMux[7]        =   0;
     assign  wGMux[7]        =   0;
     assign  wBMux[7]        =   0;
-    assign  wDebugMux[7]    =   iDebug;
+    assign  wDebugMux[7]    =   7;
     assign  wHSync[7]       =   iHSync;
     assign  wVSync[7]       =   iVSync;
     assign  wLineValid[7]   =   iLineValid;
