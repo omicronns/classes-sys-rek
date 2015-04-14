@@ -21,7 +21,7 @@ module image_processor (
     );
     
     /************************************************
-     *  Debug
+     *  Debug   SW[4:3]
      ***********************************************/
     reg     [23:0]  rDebugFPS       = 0;
     reg     [23:0]  rFPS            = 0;
@@ -59,7 +59,7 @@ module image_processor (
     end
         
     /************************************************
-     *  Option mux
+     *  Option mux  SW[2:0]
      ***********************************************/
     wire    [7:0]   wRMux       [7:0];
     wire    [7:0]   wGMux       [7:0];
@@ -97,7 +97,6 @@ module image_processor (
     //Option 1
     rgb2ycbcr   u1  (
         .iClk(iClk),
-        .iRst(iRst),
         .iR(iR),
         .iG(iG),
         .iB(iB),

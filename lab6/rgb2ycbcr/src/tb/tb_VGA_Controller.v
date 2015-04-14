@@ -14,7 +14,6 @@ module tb_VGA_Controller ();
     wire            oVSync;
     wire            oLineValid;
     wire            oFrameValid;
-    wire            oDataRequest;
     
     
     
@@ -31,9 +30,8 @@ module tb_VGA_Controller ();
         .oB(oB),
         .oHSync(oHSync),
         .oVSync(oVSync),
-        .oLineValid(oVSync),
-        .oFrameValid(oVSync),
-        .oDataRequest(oVSync)
+        .oLineValid(oLineValid),
+        .oFrameValid(oFrameValid)
     );
     
     integer i;
@@ -47,7 +45,7 @@ module tb_VGA_Controller ();
         
         #100;
         
-        for(i = 0; i < 100; i = i + 1)
+        for(i = 0; i < 1000; i = i + 1)
         begin
             #1; iClk <= 1;
             #1; iClk <= 0;

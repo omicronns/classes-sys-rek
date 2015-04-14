@@ -348,7 +348,7 @@ Sdram_Control      u7   (
 
          // FIFO Read Side 1
            .RD1_DATA(Read_DATA1),
-        .RD1(Read),
+        .RD1(wLineValidProc),
         .RD1_ADDR(0),
         .RD1_MAX_ADDR(640*480),
         .RD1_LENGTH(8'h50),
@@ -357,7 +357,7 @@ Sdram_Control      u7   (
 
         //  FIFO Read Side 2
         .RD2_DATA(Read_DATA2),
-        .RD2(Read),
+        .RD2(wLineValidProc),
         .RD2_ADDR(23'h100000),
         .RD2_MAX_ADDR(23'h100000+640*480),
         .RD2_LENGTH(8'h50),
@@ -425,7 +425,6 @@ VGAController       u1  (
         .oHSync(wHSyncProc),
         .oVSync(wVSyncProc),
         .oLineValid(wLineValidProc),
-        .oFrameValid(wFrameValidProc),
-        .oDataRequest(Read),
+        .oFrameValid(wFrameValidProc)
     );
 endmodule
