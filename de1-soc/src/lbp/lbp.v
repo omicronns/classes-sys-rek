@@ -110,5 +110,5 @@ module lbp #(
         .oFrameValid(wFrameValid)
     );
 
-    endmodule
+endmodule
     
