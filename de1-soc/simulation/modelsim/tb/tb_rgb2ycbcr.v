@@ -24,19 +24,22 @@ module tb_rgb2ycbcr ();
     integer imsrc;
     integer imdest;
     integer i;
+    integer j;
     initial
     begin
         $system("pwd");
-        imsrc  = $fopen("matlab_model/tb_model/reka.ppm", "rb");
-        imdest = $fopen("matlab_model/tb_model/rekav.ppm", "wb");
+        imsrc  = $fopen("tb/tb_rgb2ycbcr_data/reka.ppm",     "rb");
+        imdest = $fopen("tb/tb_rgb2ycbcr_data/reka_out.ppm", "wb");
         if(imsrc  == 0) $stop;
         if(imdest == 0) $stop;
+        $fwrite(imdest, "P6 64 64 255\n");
         
         /************************************
          *  Ignore header
          ***********************************/
-         i = 0;
-         while(i < 100 && iR == 8'h0a)
+        i = 0;
+        iR = $fgetc(imsrc);
+        while(i < 100 && iR != 8'h0a)
         begin
             iR = $fgetc(imsrc);
             i = i + 1;
@@ -59,7 +62,7 @@ module tb_rgb2ycbcr ();
         end
         for(i = 0; i < 64; i = i + 1)
         begin
-            for(i = 0; i < 64; i = i + 1)
+            for(j = 0; j < 64; j = j + 1)
             begin
                 iR = $fgetc(imsrc);
                 iG = $fgetc(imsrc);
@@ -71,6 +74,8 @@ module tb_rgb2ycbcr ();
                 $fwrite(imdest, "%c", oCr);
             end
         end
+        $fclose(imsrc);
+        $fclose(imdest);
         $stop;
     end
 endmodule

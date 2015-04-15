@@ -97,21 +97,28 @@ module image_processor  (
     );
     
     //Option 3
-//  localparam Ta = 8'd90;
-//	localparam Tb = 8'd135;
-//	localparam Tc = 8'd120;
-//	localparam Td = 8'd170;
-    localparam Ta = 8'd100;
-	localparam Tb = 8'd125;
-	localparam Tc = 8'd135;
-	localparam Td = 8'd170;
-	assign wRMux[3]         = (wGMux[1] > Ta && wGMux[1] < Tb && wBMux[1] > Tc && wBMux[1] < Td) ? 8'd0 : 8'd255;
-	assign wGMux[3]         =  wRMux[3];
-	assign wBMux[3]         =  wRMux[3];
-    assign  wHSync[3]       =  iHSync;
-    assign  wVSync[3]       =  iVSync;
-    assign  wLineValid[3]   =  iLineValid;
-    assign  wFrameValid[3]  =  iFrameValid;
+    wire    [7:0]   skinY;
+    
+    assign  wRMux[3]        =   skinY;
+    assign  wGMux[3]        =   skinY;
+    assign  wBMux[3]        =   skinY;
+    
+    skindet   u3  (
+        .iClk(iClk),
+        .iR(iR),
+        .iG(iG),
+        .iB(iB),
+        .iHSync(iHSync),
+        .iVSync(iVSync),
+        .iLineValid(iLineValid),
+        .iFrameValid(iFrameValid),
+
+        .oY(skinY),
+        .oHSync(wHSync[3]),
+        .oVSync(wVSync[3]),
+        .oLineValid(wLineValid[3]),
+        .oFrameValid(wFrameValid[3])
+    );
     
     //Option 4
     wire    [7:0]   lbpY;
@@ -122,13 +129,15 @@ module image_processor  (
     
     lbp   u4  (
         .iClk(iClk),
-        .iPix(grayY),
-        .iHSync(wHSync[2]),
-        .iVSync(wVSync[2]),
-        .iLineValid(wLineValid[2]),
-        .iFrameValid(wFrameValid[2]),
+        .iR(iR),
+        .iG(iG),
+        .iB(iB),
+        .iHSync(iHSync),
+        .iVSync(iVSync),
+        .iLineValid(iLineValid),
+        .iFrameValid(iFrameValid),
 
-        .oPix(lbpY),
+        .oY(lbpY),
         .oHSync(wHSync[4]),
         .oVSync(wVSync[4]),
         .oLineValid(wLineValid[4]),
