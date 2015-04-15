@@ -7,10 +7,32 @@ module rgb2ycbcr (
         input           [7:0]   iR,
         input           [7:0]   iG,
         input           [7:0]   iB,
+        input                   iHSync,
+        input                   iVSync,
+        input                   iLineValid,
+        input                   iFrameValid,
         
         output          [7:0]   oY,
         output          [7:0]   oCb,
-        output          [7:0]   oCr
+        output          [7:0]   oCr,
+        output                  oHSync,
+        output                  oVSync,
+        output                  oLineValid,
+        output                  oFrameValid
+    );
+    
+    /**************************************
+     *  Delay sync lines
+     *************************************/
+    delayLine  #(
+        .DELAY(5),
+        .WIDTH(4)
+    ) syncDelay (
+        .ce(1),
+        .rst(0),
+        .clk(iClk),
+        .in({iHSync, iVSync, iLineValid, iFrameValid}),
+        .out({oHSync, oVSync, oLineValid, oFrameValid})
     );
     
     //mul output must be             :  PREC+10 bits long
