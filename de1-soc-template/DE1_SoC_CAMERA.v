@@ -239,8 +239,8 @@ wire        [7:0]           wGProc;
 wire        [7:0]           wBProc;
 wire                        wHSyncProc;
 wire                        wVSyncProc;
-wire                        wDataValidProc;
 wire                        wLineValidProc;
+wire                        wFrameValidProc;
 
 //power on start
 wire                        auto_start;
@@ -348,7 +348,7 @@ Sdram_Control      u7   (
 
          // FIFO Read Side 1
            .RD1_DATA(Read_DATA1),
-        .RD1(Read),
+        .RD1(wLineValidProc),
         .RD1_ADDR(0),
         .RD1_MAX_ADDR(640*480),
         .RD1_LENGTH(8'h50),
@@ -357,7 +357,7 @@ Sdram_Control      u7   (
 
         //  FIFO Read Side 2
         .RD2_DATA(Read_DATA2),
-        .RD2(Read),
+        .RD2(wLineValidProc),
         .RD2_ADDR(23'h100000),
         .RD2_MAX_ADDR(23'h100000+640*480),
         .RD2_LENGTH(8'h50),
@@ -396,8 +396,8 @@ image_processor     u9  (
         .iB(wBProc),
         .iHSync(wHSyncProc),
         .iVSync(wVSyncProc),
-        .iDataValid(wDataValidProc),
         .iLineValid(wLineValidProc),
+        .iFrameValid(wFrameValidProc),
         .iClk(VGA_CTRL_CLK),
         .iRst(SW[7]),
         .iDebug({13'd0,SW[9:0]}),
@@ -407,7 +407,7 @@ image_processor     u9  (
         .oB(VGA_B),
         .oHSync(VGA_HS),
         .oVSync(VGA_VS),
-        .oDataValid(VGA_BLANK_N),
+        .oLineValid(VGA_BLANK_N),
         .oDebug(wDebugProc)
     );
 
@@ -424,8 +424,7 @@ VGAController       u1  (
         .oB(wBProc),
         .oHSync(wHSyncProc),
         .oVSync(wVSyncProc),
-        .oDataValid(wDataValidProc),
         .oLineValid(wLineValidProc),
-        .oDataRequest(Read),
+        .oFrameValid(wFrameValidProc)
     );
 endmodule
