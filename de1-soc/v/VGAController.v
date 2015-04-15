@@ -71,7 +71,7 @@ assign  oB          = (oLineValid && oFrameValid && inRst) ? iB : 0;
 /*****************************************************************
  *  Pixel counter generator
  ****************************************************************/
-always@(negedge iClk or negedge inRst)
+always@(posedge iClk or negedge inRst)
 begin
     if(~inRst) mHCounter <= 0;
     else
@@ -84,7 +84,7 @@ end
 /*****************************************************************
  *  Line counter generator
  ****************************************************************/
-always@(negedge iClk or negedge inRst)
+always@(posedge iClk or negedge inRst)
 begin
     if(~inRst) mVCounter <= 0;
     else

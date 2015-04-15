@@ -35,63 +35,67 @@ module rgb2ycbcr (
         .out({oHSync, oVSync, oLineValid, oFrameValid})
     );
     
-    //mul output must be             :  PREC+10 bits long
-    //add output  and inputs must be :  PREC+10 bits long
-    parameter   PREC    = 10;
+    /**************************************
+     *  Module parameters
+     *************************************/
+    parameter   PREC    = 9;
+    parameter   M11     = 10'h099;
+    parameter   M12     = 10'h12d;
+    parameter   M13     = 10'h03a;
+    parameter   M21     = 10'h3aa;
+    parameter   M22     = 10'h356;
+    parameter   M23     = 10'h100;
+    parameter   M31     = 10'h100;
+    parameter   M32     = 10'h32a;
+    parameter   M33     = 10'h3d6;
     
-    //constants
-    parameter   M11     = 11'h132;
-    parameter   M12     = 11'h259;
-    parameter   M13     = 11'h075;
-    parameter   M21     = 11'h753;
-    parameter   M22     = 11'h6ad;
-    parameter   M23     = 11'h200;
-    parameter   M31     = 11'h200;
-    parameter   M32     = 11'h653;
-    parameter   M33     = 11'h7ad;
+    /**************************************
+     *  /dev/zero
+     *************************************/
+     wire   [PREC-1:0]  p_zero = 0;
     
     /**************************************
      *  Compute Y
      *************************************/
-    wire    [PREC+9:0]  R11;
-    wire    [PREC+9:0]  G12;
-    wire    [PREC+9:0]  B13;
-    wire    [PREC+9:0]  Y11p12;
-    wire    [PREC+9:0]  Y13pc;
-    wire    [PREC+9:0]  Y;
-    assign  oY  =   Y[PREC+7:PREC];
+    wire    [9:0]       R11;
+    wire    [9:0]       G12;
+    wire    [9:0]       B13;
+    wire    [8:0]       Y11p12;
+    wire    [8:0]       Y13pc;
+    wire    [8:0]       Y;
+    assign  oY  =       Y[7:0];
     
     mul mul11R  (
         .clock(iClk),
         .dataa(M11),
-        .datab({1'b0, iR, 10'd0}),
+        .datab({1'b0, iR, p_zero}),
         .result(R11)
     );
     
     mul mul12G  (
         .clock(iClk),
         .dataa(M12),
-        .datab({1'b0, iG, 10'd0}),
+        .datab({1'b0, iG, p_zero}),
         .result(G12)
     );
     
     mul mul13B  (
         .clock(iClk),
         .dataa(M13),
-        .datab({1'b0, iB, 10'd0}),
+        .datab({1'b0, iB, p_zero}),
         .result(B13)
     );
     
     add add12Y  (
         .clock(iClk),
-        .dataa(R11),
-        .datab(G12),
+        .dataa(R11[8:0]),
+        .datab(G12[8:0]),
         .result(Y11p12)
     );
     
     add add3cY  (
         .clock(iClk),
-        .dataa(B13),
+        .dataa(B13[8:0]),
         .datab(0),
         .result(Y13pc)
     );
@@ -106,46 +110,46 @@ module rgb2ycbcr (
     /**************************************
      *  Compute Cb
      *************************************/
-    wire    [PREC+9:0]  R21;
-    wire    [PREC+9:0]  G22;
-    wire    [PREC+9:0]  B23;
-    wire    [PREC+9:0]  Cb21p22;
-    wire    [PREC+9:0]  Cb23pc;
-    wire    [PREC+9:0]  Cb;
-    assign  oCb  =  Cb[PREC+7:PREC];
+    wire    [9:0]       R21;
+    wire    [9:0]       G22;
+    wire    [9:0]       B23;
+    wire    [8:0]       Cb21p22;
+    wire    [8:0]       Cb23pc;
+    wire    [8:0]       Cb;
+    assign  oCb  =      Cb[7:0];
     
     mul mul21R  (
         .clock(iClk),
         .dataa(M21),
-        .datab({1'b0, iR, 10'd0}),
+        .datab({1'b0, iR, p_zero}),
         .result(R21)
     );
     
     mul mul22G  (
         .clock(iClk),
         .dataa(M22),
-        .datab({1'b0, iG, 10'd0}),
+        .datab({1'b0, iG, p_zero}),
         .result(G22)
     );
     
     mul mul23B  (
         .clock(iClk),
         .dataa(M23),
-        .datab({1'b0, iB, 10'd0}),
+        .datab({1'b0, iB, p_zero}),
         .result(B23)
     );
     
     add add12Cb  (
         .clock(iClk),
-        .dataa(R21),
-        .datab(G22),
+        .dataa(R21[8:0]),
+        .datab(G22[8:0]),
         .result(Cb21p22)
     );
     
     add add3cCb  (
         .clock(iClk),
-        .dataa(B23),
-        .datab(128 << PREC),
+        .dataa(B23[8:0]),
+        .datab(128),
         .result(Cb23pc)
     );
     
@@ -159,46 +163,46 @@ module rgb2ycbcr (
     /**************************************
      *  Compute Cr
      *************************************/
-    wire    [PREC+9:0]  R31;
-    wire    [PREC+9:0]  G32;
-    wire    [PREC+9:0]  B33;
-    wire    [PREC+9:0]  Cr31p32;
-    wire    [PREC+9:0]  Cr33pc;
-    wire    [PREC+9:0]  Cr;
-    assign  oCr  =  Cr[PREC+7:PREC];
+    wire    [9:0]       R31;
+    wire    [9:0]       G32;
+    wire    [9:0]       B33;
+    wire    [8:0]       Cr31p32;
+    wire    [8:0]       Cr33pc;
+    wire    [8:0]       Cr;
+    assign  oCr  =      Cr[7:0];
     
     mul mul31R  (
         .clock(iClk),
         .dataa(M31),
-        .datab({1'b0, iR, 10'd0}),
+        .datab({1'b0, iR, p_zero}),
         .result(R31)
     );
     
     mul mul32G  (
         .clock(iClk),
         .dataa(M32),
-        .datab({1'b0, iG, 10'd0}),
+        .datab({1'b0, iG, p_zero}),
         .result(G32)
     );
     
     mul mul33B  (
         .clock(iClk),
         .dataa(M33),
-        .datab({1'b0, iB, 10'd0}),
+        .datab({1'b0, iB, p_zero}),
         .result(B33)
     );
     
     add add12Cr  (
         .clock(iClk),
-        .dataa(R31),
-        .datab(G32),
+        .dataa(R31[8:0]),
+        .datab(G32[8:0]),
         .result(Cr31p32)
     );
     
     add add3cCr  (
         .clock(iClk),
-        .dataa(B33),
-        .datab(128 << PREC),
+        .dataa(B33[8:0]),
+        .datab(128),
         .result(Cr33pc)
     );
     

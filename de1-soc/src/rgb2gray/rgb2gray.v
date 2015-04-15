@@ -33,57 +33,61 @@ module rgb2gray(
         .out({oHSync, oVSync, oLineValid, oFrameValid})
     );
     
-    //mul output must be             :  PREC+10 bits long
-    //add output  and inputs must be :  PREC+10 bits long
-    parameter   PREC    = 10;
+    /**************************************
+     *  Module parameters
+     *************************************/
+    parameter   PREC    = 9;
+    parameter   M11     = 10'h099;
+    parameter   M12     = 10'h12d;
+    parameter   M13     = 10'h03a;
     
-    //constants
-    parameter   M11     = 11'h132;
-    parameter   M12     = 11'h259;
-    parameter   M13     = 11'h075;
+    /**************************************
+     *  /dev/zero
+     *************************************/
+     wire   [PREC-1:0]  p_zero = 0;
     
     /**************************************
      *  Compute Y
      *************************************/
-    wire    [PREC+9:0]  R11;
-    wire    [PREC+9:0]  G12;
-    wire    [PREC+9:0]  B13;
-    wire    [PREC+9:0]  Y11p12;
-    wire    [PREC+9:0]  Y13pc;
-    wire    [PREC+9:0]  Y;
-    assign  oY  =   Y[PREC+7:PREC];
+    wire    [9:0]       R11;
+    wire    [9:0]       G12;
+    wire    [9:0]       B13;
+    wire    [8:0]       Y11p12;
+    wire    [8:0]       Y13pc;
+    wire    [8:0]       Y;
+    assign  oY  =       Y[7:0];
     
     mul mul11R  (
         .clock(iClk),
         .dataa(M11),
-        .datab({1'b0, iR, 10'd0}),
+        .datab({1'b0, iR, p_zero}),
         .result(R11)
     );
     
     mul mul12G  (
         .clock(iClk),
         .dataa(M12),
-        .datab({1'b0, iG, 10'd0}),
+        .datab({1'b0, iG, p_zero}),
         .result(G12)
     );
     
     mul mul13B  (
         .clock(iClk),
         .dataa(M13),
-        .datab({1'b0, iB, 10'd0}),
+        .datab({1'b0, iB, p_zero}),
         .result(B13)
     );
     
     add add12Y  (
         .clock(iClk),
-        .dataa(R11),
-        .datab(G12),
+        .dataa(R11[8:0]),
+        .datab(G12[8:0]),
         .result(Y11p12)
     );
     
     add add3cY  (
         .clock(iClk),
-        .dataa(B13),
+        .dataa(B13[8:0]),
         .datab(0),
         .result(Y13pc)
     );

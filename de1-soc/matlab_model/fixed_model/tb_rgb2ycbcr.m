@@ -1,0 +1,13 @@
+gen_fix_m
+r21         = quantize(M_fix(2,1)*d2fix(255, 1, 8, 9),1,9,0)
+r21b        = bin(r21)
+g22         = quantize(M_fix(2,2)*d2fix(255, 1, 8, 9),1,9,0)
+g22b        = bin(g22)
+b23         = quantize(M_fix(2,3)*d2fix(255, 1, 8, 9),1,9,0)
+b23b        = bin(b23)
+cb21p22     = quantize(r21+g22,1,9,0)
+cb21p22b    = bin(cb21p22)
+cb23pc      = quantize(b23+d2fix(128,1,8,0),1,9,0)
+cb23pcb     = bin(cb23pc)
+cb          = quantize(cb21p22+cb23pc,1,9,0)
+cbb         = bin(cb)

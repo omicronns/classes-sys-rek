@@ -44,12 +44,12 @@ module mul (
 	result);
 
 	input	  clock;
-	input	[10:0]  dataa;
-	input	[18:0]  datab;
-	output	[19:0]  result;
+	input	[9:0]  dataa;
+	input	[17:0]  datab;
+	output	[9:0]  result;
 
-	wire [19:0] sub_wire0;
-	wire [19:0] result = sub_wire0[19:0];
+	wire [9:0] sub_wire0;
+	wire [9:0] result = sub_wire0[9:0];
 
 	lpm_mult	lpm_mult_component (
 				.clock (clock),
@@ -60,13 +60,13 @@ module mul (
 				.clken (1'b1),
 				.sum (1'b0));
 	defparam
-		lpm_mult_component.lpm_hint = "MAXIMIZE_SPEED=5",
+		lpm_mult_component.lpm_hint = "DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=5",
 		lpm_mult_component.lpm_pipeline = 3,
 		lpm_mult_component.lpm_representation = "SIGNED",
 		lpm_mult_component.lpm_type = "LPM_MULT",
-		lpm_mult_component.lpm_widtha = 11,
-		lpm_mult_component.lpm_widthb = 19,
-		lpm_mult_component.lpm_widthp = 20;
+		lpm_mult_component.lpm_widtha = 10,
+		lpm_mult_component.lpm_widthb = 18,
+		lpm_mult_component.lpm_widthp = 10;
 
 
 endmodule
@@ -84,29 +84,29 @@ endmodule
 // Retrieval info: PRIVATE: SignedMult NUMERIC "1"
 // Retrieval info: PRIVATE: USE_MULT NUMERIC "1"
 // Retrieval info: PRIVATE: ValidConstant NUMERIC "0"
-// Retrieval info: PRIVATE: WidthA NUMERIC "11"
-// Retrieval info: PRIVATE: WidthB NUMERIC "19"
-// Retrieval info: PRIVATE: WidthP NUMERIC "20"
+// Retrieval info: PRIVATE: WidthA NUMERIC "10"
+// Retrieval info: PRIVATE: WidthB NUMERIC "18"
+// Retrieval info: PRIVATE: WidthP NUMERIC "10"
 // Retrieval info: PRIVATE: aclr NUMERIC "0"
 // Retrieval info: PRIVATE: clken NUMERIC "0"
 // Retrieval info: PRIVATE: new_diagram STRING "1"
 // Retrieval info: PRIVATE: optimize NUMERIC "0"
 // Retrieval info: LIBRARY: lpm lpm.lpm_components.all
-// Retrieval info: CONSTANT: LPM_HINT STRING "MAXIMIZE_SPEED=5"
+// Retrieval info: CONSTANT: LPM_HINT STRING "DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=5"
 // Retrieval info: CONSTANT: LPM_PIPELINE NUMERIC "3"
 // Retrieval info: CONSTANT: LPM_REPRESENTATION STRING "SIGNED"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_MULT"
-// Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC "11"
-// Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "19"
-// Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "20"
+// Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC "10"
+// Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "18"
+// Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "10"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
-// Retrieval info: USED_PORT: dataa 0 0 11 0 INPUT NODEFVAL "dataa[10..0]"
-// Retrieval info: USED_PORT: datab 0 0 19 0 INPUT NODEFVAL "datab[18..0]"
-// Retrieval info: USED_PORT: result 0 0 20 0 OUTPUT NODEFVAL "result[19..0]"
+// Retrieval info: USED_PORT: dataa 0 0 10 0 INPUT NODEFVAL "dataa[9..0]"
+// Retrieval info: USED_PORT: datab 0 0 18 0 INPUT NODEFVAL "datab[17..0]"
+// Retrieval info: USED_PORT: result 0 0 10 0 OUTPUT NODEFVAL "result[9..0]"
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @dataa 0 0 11 0 dataa 0 0 11 0
-// Retrieval info: CONNECT: @datab 0 0 19 0 datab 0 0 19 0
-// Retrieval info: CONNECT: result 0 0 20 0 @result 0 0 20 0
+// Retrieval info: CONNECT: @dataa 0 0 10 0 dataa 0 0 10 0
+// Retrieval info: CONNECT: @datab 0 0 18 0 datab 0 0 18 0
+// Retrieval info: CONNECT: result 0 0 10 0 @result 0 0 10 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL mul.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL mul.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL mul.cmp FALSE
