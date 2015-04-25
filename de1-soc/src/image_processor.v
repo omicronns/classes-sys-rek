@@ -35,22 +35,47 @@ module image_processor  (
     /************************************************
      *  Option mux  SW[2:0]
      ***********************************************/
-    wire    [7:0]   wRMux       [15:0];
-    wire    [7:0]   wGMux       [15:0];
-    wire    [7:0]   wBMux       [15:0];
-    wire            wHSync      [15:0];
-    wire            wVSync      [15:0];
-    wire            wLineValid  [15:0];
-    wire            wFrameValid [15:0];
+    wire    [7:0]   wRMux           [15:0];
+    wire    [7:0]   wGMux           [15:0];
+    wire    [7:0]   wBMux           [15:0];
+    wire            wHSyncMux       [15:0];
+    wire            wVSyncMux       [15:0];
+    wire            wLineValidMux   [15:0];
+    wire            wFrameValidMux  [15:0];
+    
+    wire    [7:0]   wRCenter;
+    wire    [7:0]   wGCenter;
+    wire    [7:0]   wBCenter;
+    wire            wHSyncCenter;
+    wire            wVSyncCenter;
+    wire            wLineValidCenter;
+    wire            wFrameValidCenter;
+    
+    wire    [7:0]   wR;
+    wire    [7:0]   wG;
+    wire    [7:0]   wB;
+    wire            wHSync;
+    wire            wVSync;
+    wire            wLineValid;
+    wire            wFrameValid;
+    
+    //Mux connect
+    assign  oR          =   (iDebug[5] == 1) ? wRCenter     : wR;
+    assign  oG          =   (iDebug[5] == 1) ? wGCenter     : wG;
+    assign  oB          =   (iDebug[5] == 1) ? wBCenter     : wB;
+    assign  oHSync      =   wHSync;
+    assign  oVSync      =   wVSync;
+    assign  oLineValid  =   wLineValid;
+    assign  oFrameValid =   wFrameValid;    
 
     //Option 0
-    assign  wRMux[0]        =   iR;
-    assign  wGMux[0]        =   iG;
-    assign  wBMux[0]        =   iB;
-    assign  wHSync[0]       =   iHSync;
-    assign  wVSync[0]       =   iVSync;
-    assign  wLineValid[0]   =   iLineValid;
-    assign  wFrameValid[0]  =   iFrameValid;
+    assign  wRMux[0]            =   iR;
+    assign  wGMux[0]            =   iG;
+    assign  wBMux[0]            =   iB;
+    assign  wHSyncMux[0]        =   iHSync;
+    assign  wVSyncMux[0]        =   iVSync;
+    assign  wLineValidMux[0]    =   iLineValid;
+    assign  wFrameValidMux[0]   =   iFrameValid;
     
     //Option 1
     rgb2ycbcr   u1  (
@@ -66,10 +91,10 @@ module image_processor  (
         .oY(wRMux[1]),
         .oCb(wGMux[1]),
         .oCr(wBMux[1]),
-        .oHSync(wHSync[1]),
-        .oVSync(wVSync[1]),
-        .oLineValid(wLineValid[1]),
-        .oFrameValid(wFrameValid[1])
+        .oHSync(wHSyncMux[1]),
+        .oVSync(wVSyncMux[1]),
+        .oLineValid(wLineValidMux[1]),
+        .oFrameValid(wFrameValidMux[1])
     );
     
     //Option 2
@@ -90,10 +115,10 @@ module image_processor  (
         .iFrameValid(iFrameValid),
 
         .oY(grayY),
-        .oHSync(wHSync[2]),
-        .oVSync(wVSync[2]),
-        .oLineValid(wLineValid[2]),
-        .oFrameValid(wFrameValid[2])
+        .oHSync(wHSyncMux[2]),
+        .oVSync(wVSyncMux[2]),
+        .oLineValid(wLineValidMux[2]),
+        .oFrameValid(wFrameValidMux[2])
     );
     
     //Option 3
@@ -114,10 +139,10 @@ module image_processor  (
         .iFrameValid(iFrameValid),
 
         .oY(skinY),
-        .oHSync(wHSync[3]),
-        .oVSync(wVSync[3]),
-        .oLineValid(wLineValid[3]),
-        .oFrameValid(wFrameValid[3])
+        .oHSync(wHSyncMux[3]),
+        .oVSync(wVSyncMux[3]),
+        .oLineValid(wLineValidMux[3]),
+        .oFrameValid(wFrameValidMux[3])
     );
     
     //Option 4
@@ -138,45 +163,69 @@ module image_processor  (
         .iFrameValid(iFrameValid),
 
         .oY(lbpY),
-        .oHSync(wHSync[4]),
-        .oVSync(wVSync[4]),
-        .oLineValid(wLineValid[4]),
-        .oFrameValid(wFrameValid[4])
+        .oHSync(wHSyncMux[4]),
+        .oVSync(wVSyncMux[4]),
+        .oLineValid(wLineValidMux[4]),
+        .oFrameValid(wFrameValidMux[4])
     );
     
     //Option 5
-    assign  wRMux[5]        =   iR;
-    assign  wGMux[5]        =   iG;
-    assign  wBMux[5]        =   iB;
-    assign  wHSync[5]       =   iHSync;
-    assign  wVSync[5]       =   iVSync;
-    assign  wLineValid[5]   =   iLineValid;
-    assign  wFrameValid[5]  =   iFrameValid;
+    assign  wRMux[5]            =   iR;
+    assign  wGMux[5]            =   iG;
+    assign  wBMux[5]            =   iB;
+    assign  wHSyncMux[5]        =   iHSync;
+    assign  wVSyncMux[5]        =   iVSync;
+    assign  wLineValidMux[5]    =   iLineValid;
+    assign  wFrameValidMux[5]   =   iFrameValid;
     
     //Option 6
-    assign  wRMux[6]        =   iR;
-    assign  wGMux[6]        =   iG;
-    assign  wBMux[6]        =   iB;
-    assign  wHSync[6]       =   iHSync;
-    assign  wVSync[6]       =   iVSync;
-    assign  wLineValid[6]   =   iLineValid;
-    assign  wFrameValid[6]  =   iFrameValid;
+    assign  wRMux[6]            =   iR;
+    assign  wGMux[6]            =   iG;
+    assign  wBMux[6]            =   iB;
+    assign  wHSyncMux[6]        =   iHSync;
+    assign  wVSyncMux[6]        =   iVSync;
+    assign  wLineValidMux[6]    =   iLineValid;
+    assign  wFrameValidMux[6]   =   iFrameValid;
     
     //Option 7
-    assign  wRMux[7]        =   0;
-    assign  wGMux[7]        =   0;
-    assign  wBMux[7]        =   0;
-    assign  wHSync[7]       =   iHSync;
-    assign  wVSync[7]       =   iVSync;
-    assign  wLineValid[7]   =   iLineValid;
-    assign  wFrameValid[7]  =   iFrameValid;
+    assign  wRMux[7]            =   0;
+    assign  wGMux[7]            =   0;
+    assign  wBMux[7]            =   0;
+    assign  wHSyncMux[7]        =   iHSync;
+    assign  wVSyncMux[7]        =   iVSync;
+    assign  wLineValidMux[7]    =   iLineValid;
+    assign  wFrameValidMux[7]   =   iFrameValid;
+    
+    /************************************************
+     *  Skin center insert
+     ***********************************************/
+    wire   [11:0]  wX;
+    wire   [11:0]  wY;
+    wire   [11:0]  wXCenter;
+    wire   [11:0]  wYCenter;
+    
+    assign  wRCenter = (wX == wXCenter) || (wY == wYCenter) ? 8'd255 : wR;
+    assign  wGCenter = (wX == wXCenter) || (wY == wYCenter) ? 8'd0   : wG;
+    assign  wBCenter = (wX == wXCenter) || (wY == wYCenter) ? 8'd0   : wB;
+
+    skincenter   u5  (
+        .iClk(iClk),
+        .iY(skinY),
+        .iLineValid(wLineValidMux[3]),
+        .iFrameValid(wFrameValidMux[3]),
+        
+        .oX(wX),
+        .oY(wY),
+        .oXCenter(wXCenter),
+        .oYCenter(wYCenter)
+    );
     
     //Mux connect
-    assign  oR          =   wRMux[iDebug[3:0]];
-    assign  oG          =   wGMux[iDebug[3:0]];
-    assign  oB          =   wBMux[iDebug[3:0]];
-    assign  oHSync      =   wHSync[iDebug[3:0]];
-    assign  oVSync      =   wVSync[iDebug[3:0]];
-    assign  oLineValid  =   wLineValid[iDebug[3:0]];
-    assign  oFrameValid =   wFrameValid[iDebug[3:0]];
+    assign  wR          =   wRMux[iDebug[3:0]];
+    assign  wG          =   wGMux[iDebug[3:0]];
+    assign  wB          =   wBMux[iDebug[3:0]];
+    assign  wHSync      =   wHSyncMux[iDebug[3:0]];
+    assign  wVSync      =   wVSyncMux[iDebug[3:0]];
+    assign  wLineValid  =   wLineValidMux[iDebug[3:0]];
+    assign  wFrameValid =   wFrameValidMux[iDebug[3:0]];
 endmodule

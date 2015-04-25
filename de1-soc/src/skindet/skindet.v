@@ -22,10 +22,10 @@ module skindet (
     /**************************************
      *  Parameters
      *************************************/
-    localparam Ta = 8'd100;
-    localparam Tb = 8'd125;
-    localparam Tc = 8'd135;
-    localparam Td = 8'd170;
+    localparam Ta = 8'd30;
+    localparam Tb = 8'd120;
+    localparam Tc = 8'd30;
+    localparam Td = 8'd150;
     
     /**************************************
      *  Wires

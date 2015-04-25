@@ -759,9 +759,8 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to D5M_LVAL
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to D5M_FVAL
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to D5M_SDATA
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to D5M_SCLK
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VERILOG_FILE src/accumulator/accumulator.v
+set_global_assignment -name VERILOG_FILE src/skincenter/skincenter.v
 set_global_assignment -name VERILOG_FILE src/skindet/skindet.v
 set_global_assignment -name VERILOG_FILE v/VGAController.v
 set_global_assignment -name VERILOG_FILE src/lbp/lbp.v
@@ -792,4 +791,9 @@ set_global_assignment -name QIP_FILE ip/mul/mul.qip
 set_global_assignment -name QIP_FILE ip/add/add.qip
 set_global_assignment -name VERILOG_FILE src/rgb2gray/rgb2gray.v
 set_global_assignment -name VERILOG_FILE src/image_processor_dbg.v
+set_global_assignment -name QIP_FILE src/cumsum/cumsum.qip
+set_global_assignment -name QIP_FILE src/divider/divider.qip
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
