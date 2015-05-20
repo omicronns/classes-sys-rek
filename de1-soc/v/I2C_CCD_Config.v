@@ -77,8 +77,9 @@ reg [3:0]   mSetup_ST;
 input       iEXPOSURE_ADJ;
 input       iEXPOSURE_DEC_p;    
 
-parameter   default_exposure            = 16'h07c0;
-parameter   exposure_change_value       = 16'd200;
+// parameter   default_exposure            = 16'h07c0;
+parameter   default_exposure            = 16'h0797;
+parameter   exposure_change_value       = 16'd50;
 
 reg [24:0]  combo_cnt;
 wire        combo_pulse;
@@ -243,10 +244,14 @@ begin
     3   :   LUT_DATA    <=  24'h050000;             //  H_Blanking
     4   :   LUT_DATA    <=  24'h060019;             //  V_Blanking  
     5   :   LUT_DATA    <=  24'h0A8000;             //  change latch
-    6   :   LUT_DATA    <=  24'h2B0013;             //  Green 1 Gain
-    7   :   LUT_DATA    <=  24'h2C009A;             //  Blue Gain
-    8   :   LUT_DATA    <=  24'h2D019C;             //  Red Gain
-    9   :   LUT_DATA    <=  24'h2E0013;             //  Green 2 Gain
+//     6   :   LUT_DATA    <=  24'h2B0013;             //  Green 1 Gain
+    6   :   LUT_DATA    <=  24'h2B000B;             //  Green 1 Gain
+//     7   :   LUT_DATA    <=  24'h2C001A;             //  Blue Gain
+    7   :   LUT_DATA    <=  24'h2C0010;             //  Blue Gain
+//     8   :   LUT_DATA    <=  24'h2D011C;             //  Red Gain
+    8   :   LUT_DATA    <=  24'h2D000C;             //  Red Gain
+//     9   :   LUT_DATA    <=  24'h2E0013;             //  Green 2 Gain
+    9   :   LUT_DATA    <=  24'h2E000B;             //  Green 2 Gain
     10  :   LUT_DATA    <=  24'h100051;             //  set up PLL power on
     11  :   LUT_DATA    <=  24'h111805;             //  PLL_m_Factor<<8+PLL_n_Divider
     12  :   LUT_DATA    <=  24'h120003;             //  PLL_p1_Divider
