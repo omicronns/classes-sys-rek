@@ -242,8 +242,8 @@ module skincenter (
         
         if(iFrameValidBin == 1'b1)
         begin
-            if({rLastLineValidBin,iLineValidBin} == 2'b01)    oY <= oY + 1;
-            else                                        oY <= oY;
+            if({rLastLineValidBin,iLineValidBin} == 2'b01)  oY <= oY + 1;
+            else                                            oY <= oY;
         end
         else oY <= 0;
         rLastLineValidBin <= iLineValidBin;

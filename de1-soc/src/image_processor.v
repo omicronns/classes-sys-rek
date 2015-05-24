@@ -145,13 +145,46 @@ module image_processor  (
     );
     
     //Option 5
-    assign  wRMux[5]            =   iR;
-    assign  wGMux[5]            =   iG;
-    assign  wBMux[5]            =   iB;
-    assign  wHSyncMux[5]        =   iHSync;
-    assign  wVSyncMux[5]        =   iVSync;
-    assign  wLineValidMux[5]    =   iLineValid;
-    assign  wFrameValidMux[5]   =   iFrameValid;
+    wire    [7:0]   eroY;
+    wire    [7:0]   dilY;
+    wire            eroHSync;
+    wire            eroVSync;
+    wire            eroLineValid;
+    wire            eroFrameValid;
+    
+    assign  wRMux[5]        =   dilY;
+    assign  wGMux[5]        =   dilY;
+    assign  wBMux[5]        =   dilY;
+    
+    erosion   erosion  (
+        .iClk(iClk),        
+        .iY(skinY),
+        .iHSync(wHSyncMux[3]),
+        .iVSync(wVSyncMux[3]),
+        .iLineValid(wLineValidMux[3]),
+        .iFrameValid(wFrameValidMux[3]),
+
+        .oY(eroY),
+        .oHSync(eroHSync),
+        .oVSync(eroVSync),
+        .oLineValid(eroLineValid),
+        .oFrameValid(eroFrameValid)
+    );
+    
+    dilation   dilation  (
+        .iClk(iClk),
+        .iY(eroY),
+        .iHSync(eroHSync),
+        .iVSync(eroVSync),
+        .iLineValid(eroLineValid),
+        .iFrameValid(eroFrameValid),
+
+        .oY(dilY),
+        .oHSync(wHSyncMux[5]),
+        .oVSync(wVSyncMux[5]),
+        .oLineValid(wLineValidMux[5]),
+        .oFrameValid(wFrameValidMux[5])
+    );
     
     //Option 6
     assign  wRMux[6]            =   iR;
@@ -174,7 +207,7 @@ module image_processor  (
     /************************************************
      *  Skin center insert
      ***********************************************/
-    skincenter   u5  (
+    skincenter   skincenter  (
         .iClk(iClk),
         .iSel(iDebug[6:5]),
         .iBin(skinY),
