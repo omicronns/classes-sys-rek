@@ -1,0 +1,60 @@
+Lista obsługiwanych instrukcji:
+
+preamble:
+
+mulrg - rejestr wyższego bajtu wyniku mnożenia
+
+sfrs:
+gpi   - wejście ogólnego przeznaczenia
+gpo   - wyjście ogólnego przeznaczenia
+
+Operacje przenoszenia danych:
+
+mov     rx,     ry      ; ry    -> rx
+movi    rx,     #imm    ; #imm  -> rx
+movd    rx,     *addr   ; *addr -> rx
+movd    *addr,  rx      ; rx    -> *addr
+movs    rx,     sfr     ; sfr   -> rx
+movs    sfr,    rx      ; rx    -> sfr
+movm    rx              ; mulrg -> rx
+
+Operacje logiczne
+
+and     rx,     ry      ; rx and ry     -> rx
+andi    rx,     #imm    ; rx and #imm   -> rx
+or      rx,     ry      ; rx or  ry     -> rx
+ori     rx,     #imm    ; rx or  #imm   -> rx
+xor     rx,     ry      ; rx xor ry     -> rx
+xori    rx,     #imm    ; rx xor #imm   -> rx
+not     rx              ; not rx        -> rx
+
+Operacje arytmetyczne
+
+add     rx,     ry      ; rx + ry   -> rx
+addi    rx,     #imm    ; rx + #imm -> rx
+sub     rx,     ry      ; rx - ry   -> rx
+subi    rx,     #imm    ; rx - #imm -> rx
+mul     rx,     ry      ; rx * ry   -> (mulr,rx)
+muli    rx,     #imm    ; rx * #imm -> (mulr,rx)
+
+Skoki
+
+j       @ry             ; ry                    -> pc
+j       @addr           ; @addr                 -> pc
+jz      rx,     @ry     ; if(rx == 0)        ry -> pc
+jz      rx,     @addr   ; if(rx == 0)     @addr -> pc
+jnz     rx,     @ry     ; if(rx != 0)        ry -> pc
+jnz     rx,     @addr   ; if(rx != 0)     @addr -> pc
+
+
+
+
+
+
+
+
+
+
+
+
+
