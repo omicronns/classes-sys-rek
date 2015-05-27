@@ -12,8 +12,6 @@ Operacje przenoszenia danych:
 
 mov     rx,     ry      ; ry    -> rx
 movi    rx,     #imm    ; #imm  -> rx
-movd    rx,     *addr   ; *addr -> rx
-movd    *addr,  rx      ; rx    -> *addr
 movs    rx,     sfr     ; sfr   -> rx
 movs    sfr,    rx      ; rx    -> sfr
 movm    rx              ; mulrg -> rx
@@ -40,11 +38,11 @@ muli    rx,     #imm    ; rx * #imm -> (mulr,rx)
 Skoki
 
 j       @ry             ; ry                    -> pc
-j       @addr           ; @addr                 -> pc
+ji      @addr           ; @addr                 -> pc
 jz      rx,     @ry     ; if(rx == 0)        ry -> pc
-jz      rx,     @addr   ; if(rx == 0)     @addr -> pc
+jzi     rx,     @addr   ; if(rx == 0)     @addr -> pc
 jnz     rx,     @ry     ; if(rx != 0)        ry -> pc
-jnz     rx,     @addr   ; if(rx != 0)     @addr -> pc
+jnzi    rx,     @addr   ; if(rx != 0)     @addr -> pc
 
 
 

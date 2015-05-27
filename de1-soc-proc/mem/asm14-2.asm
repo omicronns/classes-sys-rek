@@ -1,0 +1,21 @@
+movi	r0,	h01
+movso	gpo,	r0
+movi	r1,	100
+subi	r1,	1
+jnzi	r1,	3
+movi	r0,	h02
+movso	gpo,	r0
+movsi	r2,	gpi
+andi	r2,	h01
+jzi	r2,	7
+movi	r0,	h04
+movso	gpo,	r0
+movi    r1,     100
+subi    r1,     1
+jnzi    r1,     13
+movi	r0,	h08
+movso	gpo,	r0
+movsi	r2,	gpi
+andi	r2,	h02
+jzi	r2,	17
+ji	0

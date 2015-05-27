@@ -67,7 +67,7 @@ assign  LEDR[8] = rCPU_CLK;
 
 always@(posedge CLOCK2_50)
 begin
-    if(dCPU_CLK_CNTR == 50000000) begin
+    if(dCPU_CLK_CNTR == 250000) begin
         dCPU_CLK_CNTR   <= 0;
         rCPU_CLK        <= ~rCPU_CLK;
     end
