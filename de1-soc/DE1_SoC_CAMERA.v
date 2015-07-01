@@ -399,8 +399,7 @@ image_processor     u9  (
         .iLineValid(wLineValidProc),
         .iFrameValid(wFrameValidProc),
         .iClk(VGA_CTRL_CLK),
-        .iRst(SW[7]),
-        .iDebug({13'd0,SW[9:0]}),
+        .iDebug(SW[0]),
 
         .oR(VGA_R),
         .oG(VGA_G),
