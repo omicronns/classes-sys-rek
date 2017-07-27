@@ -1,2 +1,2 @@
-# studies-sys-rek
+# classes-sys-rek
 Projects developed during laboratories
